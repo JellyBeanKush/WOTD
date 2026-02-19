@@ -93,14 +93,12 @@ async function postToDiscord(wordData) {
 
   const payload = {
     embeds: [{
-      // The word is the only thing in the title
       title: `${wordData.word}`,
-      // Pure info in the description, no labels like "Definition:"
-      description: `**${wordData.phonetic}** • *${wordData.partOfSpeech}*\n\n` + 
+      // Added parentheses around partOfSpeech
+      description: `**${wordData.phonetic}** • *(${wordData.partOfSpeech})*\n\n` + 
                    `> ${wordData.definition}\n\n` +
                    `*"${wordData.example}"*`,
-      color: 0x9146ff, // Twitch Purple
-      footer: { text: `${wordData.generatedDate}` }
+      color: 0x9146ff // Twitch Purple
     }]
   };
 
