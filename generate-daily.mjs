@@ -58,7 +58,8 @@ async function postToDiscord(wordData) {
   const payload = {
     embeds: [{
       title: `${wordData.word}`,
-      description: `**${wordData.phonetic}** • *(${wordData.partOfSpeech})*\n\n> ${wordData.definition}\n\n*"${wordData.example}"*`,
+      // Discord formatting with vertical bar separators
+      description: `**${wordData.phonetic}** | *(${wordData.partOfSpeech})* | ${wordData.definition}\n\n*"${wordData.example}"*`,
       color: 0x9146ff
     }]
   };
@@ -74,19 +75,19 @@ async function main() {
   try {
     const wordData = await generateWithGemini(history.map(w => w.word));
     
-    // Save to Discord
+    // 1. Post to Discord
     await postToDiscord(wordData);
     
-    // Save to JSON history
+    // 2. Save to JSON history
     history.push(wordData);
     if (history.length > 365) history.shift();
     saveHistory(history);
 
-    // Save to Plain Text for Mix It Up
-    const plainText = `${wordData.word} ${wordData.phonetic} (${wordData.partOfSpeech}) - ${wordData.definition} | Example: ${wordData.example}`;
+    // 3. Create Plain Text file for Mix It Up with vertical bar separators
+    const plainText = `${wordData.word} | ${wordData.phonetic} | (${wordData.partOfSpeech}) | ${wordData.definition} | ${wordData.example}`;
     fs.writeFileSync(TEXT_FILE, plainText);
     
-    console.log(`✅ Success! Word: ${wordData.word}`);
+    console.log(`✅ Successfully updated Word of the Day: ${wordData.word}`);
   } catch (err) {
     console.error("❌ Error:", err.message);
     process.exit(1);
