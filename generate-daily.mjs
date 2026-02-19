@@ -1,6 +1,6 @@
 /**
  * generate-daily.mjs
- * Stream-ready Word of the Day Generator (Gemini 3 Edition)
+ * Stream-ready Word of the Day Generator (Gemini 3 Fixed)
  */
 
 import fs from "fs";
@@ -57,16 +57,16 @@ async function generateWithGemini(previousWords) {
 
   console.log("[Gemini] Requesting word using gemini-3-flash-preview...");
 
-  // Updated to the new Gemini 3 endpoint (Feb 2026)
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1/models/gemini-3-flash-preview:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contents: [{ parts: [{ text: buildPrompt(previousWords) }] }],
         generationConfig: {
-          response_mime_type: "application/json",
+          // FIXED: Changed response_mime_type to responseMimeType
+          responseMimeType: "application/json",
         },
       }),
     }
