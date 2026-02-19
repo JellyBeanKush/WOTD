@@ -1,36 +1,24 @@
-name: Daily Word of the Day
-
+name: Post Word of the Day
 on:
   schedule:
+    # This runs every day at 13:00 UTC (9:00 AM EST)
     - cron: '0 16 * * *'
-  workflow_dispatch:
+  workflow_dispatch: # This adds a button so you can test it manually
 
 jobs:
   post-word:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Run Word of the Day script
+      - name: Run WOTD Script
         env:
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
+          # ADD THIS LINE BELOW:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: node generate-daily.mjs
-
-      - name: Commit updated word history
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add word-history.json
-          git diff --staged --quiet || git commit -m "chore: add word of the day [skip ci]"
-          git push
+          # Replace the line below with the command that runs your specific script
+          # For example, if you have a python script: python main.py
+          # Or a node script: node index.js
+          echo "Running my word of the day script..."
