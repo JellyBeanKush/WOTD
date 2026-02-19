@@ -74,7 +74,7 @@ async function generateWithGemini(previousWords) {
   console.log("[Gemini] Requesting word...");
 
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -140,13 +140,15 @@ async function generateWord(previousWords = []) {
   try {
     return await generateWithGemini(previousWords);
   } catch (error) {
-    const isQuotaError =
+    const shouldFallback =
       error.message.includes("429") ||
+      error.message.includes("404") ||
       error.message.includes("quota") ||
-      error.message.includes("RESOURCE_EXHAUSTED");
+      error.message.includes("RESOURCE_EXHAUSTED") ||
+      error.message.includes("NOT_FOUND");
 
-    if (isQuotaError) {
-      console.warn("[Gemini] Quota exceeded — falling back to OpenAI...");
+    if (shouldFallback) {
+      console.warn("[Gemini] Failed, falling back to OpenAI...");
       return await generateWithOpenAI(previousWords);
     }
 
