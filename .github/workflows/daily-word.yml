@@ -1,8 +1,8 @@
 name: Post Word of the Day
 on:
   schedule:
-    - cron: '0 13 * * *'
-  workflow_dispatch:
+    - cron: '0 16 * * *' # Runs at 8:00 AM or 9:00 AM EST depending on DST
+  workflow_dispatch: # Allows you to run it manually for testing
 
 jobs:
   post-word:
@@ -29,5 +29,5 @@ jobs:
           git config --global user.name 'WordBot'
           git config --global user.email 'bot@github.com'
           git add word-history.json current-word.txt
-          git commit -m "Update daily word files [skip ci]" || echo "No changes"
+          git commit -m "Update daily word files [skip ci]" || echo "No changes to commit"
           git push
