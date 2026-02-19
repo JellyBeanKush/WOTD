@@ -6,7 +6,7 @@
  *
  * Required environment variables (set as GitHub Actions Secrets):
  *   GEMINI_API_KEY   — your Google Gemini API key
- *   DISCORD_WEBHOOK  — your Discord webhook URL
+ *   DISCORD_WEBHOOK  — your Discord webhook URL 
  */
 
 import fs from "fs";
