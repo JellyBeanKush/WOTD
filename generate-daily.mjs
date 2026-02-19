@@ -1,6 +1,6 @@
 /**
  * generate-daily.mjs
- * Stream-ready Word of the Day Generator
+ * Stream-ready Word of the Day Generator (2026 Edition)
  */
 
 import fs from "fs";
@@ -29,19 +29,19 @@ function saveHistory(history) {
 
 function buildPrompt(previousWords) {
   const exclusionList = previousWords.join(", ");
-  return `Generate a "Word of the Day" for a Twitch stream. 
+  return `Generate a "Word of the Day" for a Twitch stream audience. 
   
-  EXCLUDE THESE WORDS: [${exclusionList}]
+  EXCLUDE THESE PREVIOUS WORDS: [${exclusionList}]
 
   Rules:
   1. Pick a cool, slightly obscure English word.
-  2. Create a "sound-it-out" pronunciation guide (e.g. KER-nul). 
-  3. Definition must be under 15 words.
-  4. Example sentence should be fun/conversational.
+  2. Include a sound-it-out pronunciation (e.g. KER-nul). 
+  3. Definition: Under 15 words.
+  4. Example sentence: Fun and conversational.
 
   Response MUST be raw JSON with these exact fields:
   {
-    "word": "CAPITALIZED WORD",
+    "word": "WORD",
     "phonetic": "PRONUNCIATION",
     "partOfSpeech": "noun/verb/adj",
     "definition": "simple definition",
@@ -53,20 +53,20 @@ function buildPrompt(previousWords) {
 
 async function generateWithGemini(previousWords) {
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) throw new Error("Missing GEMINI_API_KEY.");
+  if (!apiKey) throw new Error("Missing GEMINI_API_KEY secret.");
 
-  console.log("[Gemini] Requesting word...");
+  console.log("[Gemini] Requesting word using gemini-2.0-flash...");
 
-  // Updated to v1beta for better JSON mode support in 2026
+  // Updated to 2.0-flash which is the stable 2026 choice
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contents: [{ parts: [{ text: buildPrompt(previousWords) }] }],
         generationConfig: {
-          response_mime_type: "application/json", // This forces JSON output
+          response_mime_type: "application/json",
         },
       }),
     }
@@ -74,7 +74,8 @@ async function generateWithGemini(previousWords) {
 
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`Gemini Error ${response.status}: ${text}`);
+    // If 2.0 fails, it might be a regional or account-specific thing, but this is the standard.
+    throw new Error(`Gemini API Error ${response.status}: ${text}`);
   }
 
   const data = await response.json();
@@ -89,7 +90,7 @@ async function generateWithGemini(previousWords) {
 
 async function postToDiscord(wordData) {
   const webhookUrl = process.env.DISCORD_WEBHOOK;
-  if (!webhookUrl) throw new Error("Missing DISCORD_WEBHOOK.");
+  if (!webhookUrl) throw new Error("Missing DISCORD_WEBHOOK secret.");
 
   const payload = {
     embeds: [{
@@ -100,7 +101,7 @@ async function postToDiscord(wordData) {
         { name: "What it means", value: `> ${wordData.definition}` },
         { name: "In a sentence", value: `*"${wordData.example}"*` }
       ],
-      footer: { text: `Generated for the community • ${wordData.generatedDate}` }
+      footer: { text: `HoneyBearSquish Community • ${wordData.generatedDate}` }
     }]
   };
 
@@ -126,6 +127,7 @@ async function main() {
     await postToDiscord(wordData);
     
     history.push(wordData);
+    // Keep a rolling year of history
     if (history.length > 365) history.splice(0, history.length - 365);
     saveHistory(history);
     console.log(`✅ Success! Today's word: ${wordData.word}`);
