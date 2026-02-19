@@ -1,16 +1,10 @@
-/**
- * generate-daily.mjs
- * Stream-ready Word of the Day Generator (Gemini 3 Fixed)
- */
-
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const HISTORY_FILE = path.join(__dirname, "word-history.json");
-
-// ─── Load word history ────────────────────────────────────────────────────────
+const TEXT_FILE = path.join(__dirname, "current-word.txt");
 
 function loadHistory() {
   if (!fs.existsSync(HISTORY_FILE)) return [];
@@ -25,38 +19,23 @@ function saveHistory(history) {
   fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2));
 }
 
-// ─── Shared prompt ────────────────────────────────────────────────────────────
-
 function buildPrompt(previousWords) {
   const exclusionList = previousWords.join(", ");
-  return `Generate a "Word of the Day" for a Twitch stream audience. 
-  
-  EXCLUDE THESE PREVIOUS WORDS: [${exclusionList}]
-
-  Rules:
-  1. Pick a cool, slightly obscure English word.
-  2. Include a sound-it-out pronunciation (e.g. KER-nul). 
-  3. Definition: Under 15 words.
-  4. Example sentence: Fun and conversational.
-
-  Response MUST be raw JSON with these exact fields:
+  return `Generate a "Word of the Day" for a Twitch stream. 
+  EXCLUDE: [${exclusionList}]
+  Rules: Obscure word, sound-it-out pronunciation, definition under 15 words, fun example.
+  Response MUST be raw JSON:
   {
     "word": "WORD",
     "phonetic": "PRONUNCIATION",
     "partOfSpeech": "noun/verb/adj",
-    "definition": "simple definition",
+    "definition": "definition",
     "example": "fun sentence"
   }`;
 }
 
-// ─── Gemini (Primary) ────────────────────────────────────────────────────────
-
 async function generateWithGemini(previousWords) {
   const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) throw new Error("Missing GEMINI_API_KEY secret.");
-
-  console.log("[Gemini] Requesting word using gemini-3-flash-preview...");
-
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`,
     {
@@ -64,71 +43,52 @@ async function generateWithGemini(previousWords) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contents: [{ parts: [{ text: buildPrompt(previousWords) }] }],
-        generationConfig: {
-          // FIXED: Changed response_mime_type to responseMimeType
-          responseMimeType: "application/json",
-        },
+        generationConfig: { responseMimeType: "application/json" },
       }),
     }
   );
 
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`Gemini API Error ${response.status}: ${text}`);
-  }
-
+  if (!response.ok) throw new Error(`Gemini Error: ${await response.text()}`);
   const data = await response.json();
-  const jsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!jsonText) throw new Error("Empty response from Gemini.");
-
-  const parsed = JSON.parse(jsonText);
-  return { ...parsed, generatedDate: new Date().toDateString() };
+  return JSON.parse(data.candidates[0].content.parts[0].text);
 }
-
-// ─── Discord ──────────────────────────────────────────────────────────────────
 
 async function postToDiscord(wordData) {
   const webhookUrl = process.env.DISCORD_WEBHOOK;
-  if (!webhookUrl) throw new Error("Missing DISCORD_WEBHOOK secret.");
-
   const payload = {
     embeds: [{
       title: `${wordData.word}`,
-      // Added parentheses around partOfSpeech
-      description: `**${wordData.phonetic}** • *(${wordData.partOfSpeech})*\n\n` + 
-                   `> ${wordData.definition}\n\n` +
-                   `*"${wordData.example}"*`,
-      color: 0x9146ff // Twitch Purple
+      description: `**${wordData.phonetic}** • *(${wordData.partOfSpeech})*\n\n> ${wordData.definition}\n\n*"${wordData.example}"*`,
+      color: 0x9146ff
     }]
   };
-
-  const response = await fetch(webhookUrl, {
+  await fetch(webhookUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
-
-  if (!response.ok) throw new Error(`Discord error: ${response.status}`);
-  console.log("[Discord] Posted successfully!");
 }
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
-
 async function main() {
-  console.log("=== Word of the Day Generator ===");
   const history = loadHistory();
-  const previousWords = history.map(entry => entry.word);
-
   try {
-    const wordData = await generateWithGemini(previousWords);
+    const wordData = await generateWithGemini(history.map(w => w.word));
+    
+    // Save to Discord
     await postToDiscord(wordData);
     
+    // Save to JSON history
     history.push(wordData);
-    if (history.length > 365) history.splice(0, history.length - 365);
+    if (history.length > 365) history.shift();
     saveHistory(history);
-    console.log(`✅ Success! Today's word: ${wordData.word}`);
+
+    // Save to Plain Text for Mix It Up
+    const plainText = `${wordData.word} ${wordData.phonetic} (${wordData.partOfSpeech}) - ${wordData.definition} | Example: ${wordData.example}`;
+    fs.writeFileSync(TEXT_FILE, plainText);
+    
+    console.log(`✅ Success! Word: ${wordData.word}`);
   } catch (err) {
-    console.error("\n❌ Fatal error:", err.message);
+    console.error("❌ Error:", err.message);
     process.exit(1);
   }
 }
