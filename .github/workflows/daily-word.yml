@@ -8,7 +8,6 @@ on:
 jobs:
   post-word:
     runs-on: ubuntu-latest
-    environment: GEMINI_API_KEY
     permissions:
       contents: write
 
@@ -25,6 +24,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: node generate-daily.mjs
 
       - name: Commit updated word history
