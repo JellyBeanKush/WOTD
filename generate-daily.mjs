@@ -5,8 +5,9 @@
  * Run by GitHub Actions every day on a schedule.
  *
  * Required environment variables (set as GitHub Actions Secrets):
- *   GEMINI_API_KEY   — your Google Gemini API key
- *   DISCORD_WEBHOOK  — your Discord webhook URL 
+ *   GEMINI_API_KEY   — your Google Gemini API key (primary)
+ *   OPENAI_API_KEY   — your OpenAI API key (fallback)
+ *   DISCORD_WEBHOOK  — your Discord webhook URL
  */
 
 import fs from "fs";
@@ -31,15 +32,11 @@ function saveHistory(history) {
   fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2));
 }
 
-// ─── Gemini ───────────────────────────────────────────────────────────────────
+// ─── Shared prompt ────────────────────────────────────────────────────────────
 
-async function generateWord(previousWords = []) {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) throw new Error("Missing GEMINI_API_KEY environment variable.");
-
+function buildPrompt(previousWords) {
   const exclusionList = previousWords.join(", ");
-
-  const prompt = `Generate a "Word of the Day" suitable for a Twitch stream audience.
+  return `Generate a "Word of the Day" suitable for a Twitch stream audience.
 
 IMPORTANT CONSTRAINTS:
 - DO NOT generate any of the following words: [${exclusionList}]
@@ -59,57 +56,102 @@ Respond ONLY with a JSON object with these fields:
   "definition": "string — concise definition, max 15 words",
   "example": "string — short example sentence"
 }`;
+}
 
-  const MAX_RETRIES = 3;
-  let lastError;
+function validateAndFinalize(parsed, previousWords) {
+  if (previousWords.map(w => w.toLowerCase()).includes(parsed.word.toLowerCase())) {
+    throw new Error(`Duplicate word generated: "${parsed.word}".`);
+  }
+  return { ...parsed, generatedDate: new Date().toDateString() };
+}
 
-  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-    try {
-      console.log(`[Gemini] Requesting word (attempt ${attempt}/${MAX_RETRIES})...`);
+// ─── Gemini ───────────────────────────────────────────────────────────────────
 
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: { responseMimeType: "application/json" },
-          }),
-        }
-      );
+async function generateWithGemini(previousWords) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) throw new Error("Missing GEMINI_API_KEY.");
 
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(`Gemini API error ${response.status}: ${text}`);
-      }
+  console.log("[Gemini] Requesting word...");
 
-      const data = await response.json();
-      const jsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!jsonText) throw new Error("Empty response from Gemini.");
-
-      const parsed = JSON.parse(jsonText);
-
-      if (previousWords.map(w => w.toLowerCase()).includes(parsed.word.toLowerCase())) {
-        throw new Error(`Duplicate word generated: "${parsed.word}". Retrying...`);
-      }
-
-      console.log(`[Gemini] Generated word: "${parsed.word}"`);
-      return { ...parsed, generatedDate: new Date().toDateString() };
-
-    } catch (error) {
-      console.error(`[Gemini] Attempt ${attempt} failed:`, error.message);
-      lastError = error;
-
-      if (attempt < MAX_RETRIES) {
-        const delay = 1000 * Math.pow(2, attempt - 1);
-        console.log(`[Gemini] Retrying in ${delay}ms...`);
-        await new Promise(resolve => setTimeout(resolve, delay));
-      }
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: buildPrompt(previousWords) }] }],
+        generationConfig: { responseMimeType: "application/json" },
+      }),
     }
+  );
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Gemini API error ${response.status}: ${text}`);
   }
 
-  throw lastError;
+  const data = await response.json();
+  const jsonText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!jsonText) throw new Error("Empty response from Gemini.");
+
+  const parsed = JSON.parse(jsonText);
+  console.log(`[Gemini] Generated word: "${parsed.word}"`);
+  return validateAndFinalize(parsed, previousWords);
+}
+
+// ─── OpenAI fallback ──────────────────────────────────────────────────────────
+
+async function generateWithOpenAI(previousWords) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) throw new Error("Missing OPENAI_API_KEY.");
+
+  console.log("[OpenAI] Requesting word...");
+
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: "gpt-4o-mini",
+      messages: [{ role: "user", content: buildPrompt(previousWords) }],
+      response_format: { type: "json_object" },
+    }),
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`OpenAI API error ${response.status}: ${text}`);
+  }
+
+  const data = await response.json();
+  const jsonText = data?.choices?.[0]?.message?.content;
+  if (!jsonText) throw new Error("Empty response from OpenAI.");
+
+  const parsed = JSON.parse(jsonText);
+  console.log(`[OpenAI] Generated word: "${parsed.word}"`);
+  return validateAndFinalize(parsed, previousWords);
+}
+
+// ─── Generate with fallback ───────────────────────────────────────────────────
+
+async function generateWord(previousWords = []) {
+  try {
+    return await generateWithGemini(previousWords);
+  } catch (error) {
+    const isQuotaError =
+      error.message.includes("429") ||
+      error.message.includes("quota") ||
+      error.message.includes("RESOURCE_EXHAUSTED");
+
+    if (isQuotaError) {
+      console.warn("[Gemini] Quota exceeded — falling back to OpenAI...");
+      return await generateWithOpenAI(previousWords);
+    }
+
+    throw error;
+  }
 }
 
 // ─── Discord ──────────────────────────────────────────────────────────────────
@@ -122,7 +164,7 @@ async function postToDiscord(wordData) {
     embeds: [
       {
         description: `## ${wordData.word}\n**${wordData.phonetic}** *(${wordData.partOfSpeech})*`,
-        color: 0x9146ff, // Twitch Purple
+        color: 0x9146ff,
         fields: [
           {
             name: "Definition",
@@ -161,20 +203,15 @@ async function main() {
   console.log("=== Word of the Day Generator ===");
   console.log(`Date: ${new Date().toDateString()}\n`);
 
-  // Load history to avoid duplicates
   const history = loadHistory();
   const previousWords = history.map(entry => entry.word);
   console.log(`[History] ${previousWords.length} previous words loaded.`);
 
-  // Generate a new word
   const wordData = await generateWord(previousWords);
 
-  // Post to Discord
   await postToDiscord(wordData);
 
-  // Save to history
   history.push(wordData);
-  // Keep only the last 365 entries
   if (history.length > 365) history.splice(0, history.length - 365);
   saveHistory(history);
 
