@@ -1,13 +1,6 @@
 /**
  * generate-daily.mjs
- *
- * Standalone script — no browser, no React, no OBS.
- * Run by GitHub Actions every day on a schedule.
- *
- * Required environment variables (set as GitHub Actions Secrets):
- *   GEMINI_API_KEY   — your Google Gemini API key (primary)
- *   OPENAI_API_KEY   — your OpenAI API key (fallback)
- *   DISCORD_WEBHOOK  — your Discord webhook URL
+ * Stream-ready Word of the Day Generator
  */
 
 import fs from "fs";
@@ -36,36 +29,27 @@ function saveHistory(history) {
 
 function buildPrompt(previousWords) {
   const exclusionList = previousWords.join(", ");
-  return `Generate a "Word of the Day" suitable for a Twitch stream audience.
+  return `Generate a "Word of the Day" for a Twitch stream. 
+  
+  EXCLUDE THESE WORDS: [${exclusionList}]
 
-IMPORTANT CONSTRAINTS:
-- DO NOT generate any of the following words: [${exclusionList}]
+  Rules:
+  1. Pick a cool, slightly obscure English word.
+  2. Create a "sound-it-out" pronunciation guide (e.g. KER-nul). 
+  3. Definition must be under 15 words.
+  4. Example sentence should be fun/conversational.
 
-Criteria:
-1. The word should be real, valid English.
-2. It can be slightly obscure or interesting (e.g. 'petrichor', 'drossy', 'sonder').
-3. Include a "sound-it-out" pronunciation guide (e.g. for 'Colonel', use 'KER-nul'). Do NOT use IPA symbols. Capitalize the stressed syllable.
-4. The definition must be concise (under 15 words) and plain text (no HTML).
-5. Provide a short, fun example sentence.
-
-Respond ONLY with raw JSON (no markdown, no code blocks) with these fields:
-{
-  "word": "string — the word itself, capitalized",
-  "phonetic": "string — sound-it-out pronunciation",
-  "partOfSpeech": "string — noun, verb, adjective, etc.",
-  "definition": "string — concise definition, max 15 words",
-  "example": "string — short example sentence"
-}`;
+  Response MUST be raw JSON with these exact fields:
+  {
+    "word": "CAPITALIZED WORD",
+    "phonetic": "PRONUNCIATION",
+    "partOfSpeech": "noun/verb/adj",
+    "definition": "simple definition",
+    "example": "fun sentence"
+  }`;
 }
 
-function validateAndFinalize(parsed, previousWords) {
-  if (previousWords.map(w => w.toLowerCase()).includes(parsed.word.toLowerCase())) {
-    throw new Error(`Duplicate word generated: "${parsed.word}".`);
-  }
-  return { ...parsed, generatedDate: new Date().toDateString() };
-}
-
-// ─── Gemini ───────────────────────────────────────────────────────────────────
+// ─── Gemini (Primary) ────────────────────────────────────────────────────────
 
 async function generateWithGemini(previousWords) {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -73,21 +57,24 @@ async function generateWithGemini(previousWords) {
 
   console.log("[Gemini] Requesting word...");
 
+  // Updated to v1beta for better JSON mode support in 2026
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contents: [{ parts: [{ text: buildPrompt(previousWords) }] }],
-        
+        generationConfig: {
+          response_mime_type: "application/json", // This forces JSON output
+        },
       }),
     }
   );
 
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`Gemini API error ${response.status}: ${text}`);
+    throw new Error(`Gemini Error ${response.status}: ${text}`);
   }
 
   const data = await response.json();
@@ -95,97 +82,27 @@ async function generateWithGemini(previousWords) {
   if (!jsonText) throw new Error("Empty response from Gemini.");
 
   const parsed = JSON.parse(jsonText);
-  console.log(`[Gemini] Generated word: "${parsed.word}"`);
-  return validateAndFinalize(parsed, previousWords);
-}
-
-// ─── OpenAI fallback ──────────────────────────────────────────────────────────
-
-async function generateWithOpenAI(previousWords) {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) throw new Error("Missing OPENAI_API_KEY.");
-
-  console.log("[OpenAI] Requesting word...");
-
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: buildPrompt(previousWords) }],
-      response_format: { type: "json_object" },
-    }),
-  });
-
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`OpenAI API error ${response.status}: ${text}`);
-  }
-
-  const data = await response.json();
-  const jsonText = data?.choices?.[0]?.message?.content;
-  if (!jsonText) throw new Error("Empty response from OpenAI.");
-
-  const parsed = JSON.parse(jsonText);
-  console.log(`[OpenAI] Generated word: "${parsed.word}"`);
-  return validateAndFinalize(parsed, previousWords);
-}
-
-// ─── Generate with fallback ───────────────────────────────────────────────────
-
-async function generateWord(previousWords = []) {
-  try {
-    return await generateWithGemini(previousWords);
-  } catch (error) {
-    const shouldFallback =
-      error.message.includes("429") ||
-      error.message.includes("404") ||
-      error.message.includes("400") ||
-      error.message.includes("INVALID_ARGUMENT") ||
-      error.message.includes("quota") ||
-      error.message.includes("RESOURCE_EXHAUSTED") ||
-      error.message.includes("NOT_FOUND");
-
-    if (shouldFallback) {
-      console.warn("[Gemini] Failed, falling back to OpenAI...");
-      return await generateWithOpenAI(previousWords);
-    }
-
-    throw error;
-  }
+  return { ...parsed, generatedDate: new Date().toDateString() };
 }
 
 // ─── Discord ──────────────────────────────────────────────────────────────────
 
 async function postToDiscord(wordData) {
   const webhookUrl = process.env.DISCORD_WEBHOOK;
-  if (!webhookUrl) throw new Error("Missing DISCORD_WEBHOOK environment variable.");
+  if (!webhookUrl) throw new Error("Missing DISCORD_WEBHOOK.");
 
   const payload = {
-    embeds: [
-      {
-        description: `## ${wordData.word}\n**${wordData.phonetic}** *(${wordData.partOfSpeech})*`,
-        color: 0x9146ff,
-        fields: [
-          {
-            name: "Definition",
-            value: `> ${wordData.definition}`,
-            inline: false,
-          },
-          {
-            name: "Example",
-            value: `*"${wordData.example}"*`,
-            inline: false,
-          },
-        ],
-      },
-    ],
+    embeds: [{
+      title: `✨ Word of the Day: ${wordData.word}`,
+      description: `**${wordData.phonetic}** — *${wordData.partOfSpeech}*`,
+      color: 0x9146ff, // Twitch Purple
+      fields: [
+        { name: "What it means", value: `> ${wordData.definition}` },
+        { name: "In a sentence", value: `*"${wordData.example}"*` }
+      ],
+      footer: { text: `Generated for the community • ${wordData.generatedDate}` }
+    }]
   };
-
-  console.log("[Discord] Posting word to webhook...");
 
   const response = await fetch(webhookUrl, {
     method: "POST",
@@ -193,11 +110,7 @@ async function postToDiscord(wordData) {
     body: JSON.stringify(payload),
   });
 
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`Discord webhook error ${response.status}: ${text}`);
-  }
-
+  if (!response.ok) throw new Error(`Discord error: ${response.status}`);
   console.log("[Discord] Posted successfully!");
 }
 
@@ -205,24 +118,21 @@ async function postToDiscord(wordData) {
 
 async function main() {
   console.log("=== Word of the Day Generator ===");
-  console.log(`Date: ${new Date().toDateString()}\n`);
-
   const history = loadHistory();
   const previousWords = history.map(entry => entry.word);
-  console.log(`[History] ${previousWords.length} previous words loaded.`);
 
-  const wordData = await generateWord(previousWords);
-
-  await postToDiscord(wordData);
-
-  history.push(wordData);
-  if (history.length > 365) history.splice(0, history.length - 365);
-  saveHistory(history);
-
-  console.log("\n✅ Done!");
+  try {
+    const wordData = await generateWithGemini(previousWords);
+    await postToDiscord(wordData);
+    
+    history.push(wordData);
+    if (history.length > 365) history.splice(0, history.length - 365);
+    saveHistory(history);
+    console.log(`✅ Success! Today's word: ${wordData.word}`);
+  } catch (err) {
+    console.error("\n❌ Fatal error:", err.message);
+    process.exit(1);
+  }
 }
 
-main().catch(err => {
-  console.error("\n❌ Fatal error:", err.message);
-  process.exit(1);
-});
+main();
