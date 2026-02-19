@@ -1,0 +1,5 @@
+{
+  "name": "Streamer's Word of the Day",
+  "description": "A daily word generator powered by Gemini, designed for Twitch overlays and chat integration with persistent daily storage.",
+  "requestFramePermissions": []
+}
