@@ -1,6 +1,6 @@
 /**
  * generate-daily.mjs
- * Stream-ready Word of the Day Generator (2026 Edition)
+ * Stream-ready Word of the Day Generator (Gemini 3 Edition)
  */
 
 import fs from "fs";
@@ -55,11 +55,11 @@ async function generateWithGemini(previousWords) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new Error("Missing GEMINI_API_KEY secret.");
 
-  console.log("[Gemini] Requesting word using gemini-2.0-flash...");
+  console.log("[Gemini] Requesting word using gemini-3-flash-preview...");
 
-  // Updated to 2.0-flash which is the stable 2026 choice
+  // Updated to the new Gemini 3 endpoint (Feb 2026)
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1/models/gemini-3-flash-preview:generateContent?key=${apiKey}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -74,7 +74,6 @@ async function generateWithGemini(previousWords) {
 
   if (!response.ok) {
     const text = await response.text();
-    // If 2.0 fails, it might be a regional or account-specific thing, but this is the standard.
     throw new Error(`Gemini API Error ${response.status}: ${text}`);
   }
 
@@ -127,7 +126,6 @@ async function main() {
     await postToDiscord(wordData);
     
     history.push(wordData);
-    // Keep a rolling year of history
     if (history.length > 365) history.splice(0, history.length - 365);
     saveHistory(history);
     console.log(`✅ Success! Today's word: ${wordData.word}`);
