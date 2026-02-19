@@ -93,14 +93,14 @@ async function postToDiscord(wordData) {
 
   const payload = {
     embeds: [{
-      title: `✨ Word of the Day: ${wordData.word}`,
-      description: `**${wordData.phonetic}** — *${wordData.partOfSpeech}*`,
+      // The word is the only thing in the title
+      title: `${wordData.word}`,
+      // Pure info in the description, no labels like "Definition:"
+      description: `**${wordData.phonetic}** • *${wordData.partOfSpeech}*\n\n` + 
+                   `> ${wordData.definition}\n\n` +
+                   `*"${wordData.example}"*`,
       color: 0x9146ff, // Twitch Purple
-      fields: [
-        { name: "What it means", value: `> ${wordData.definition}` },
-        { name: "In a sentence", value: `*"${wordData.example}"*` }
-      ],
-      footer: { text: `HoneyBearSquish Community • ${wordData.generatedDate}` }
+      footer: { text: `${wordData.generatedDate}` }
     }]
   };
 
