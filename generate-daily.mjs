@@ -48,7 +48,7 @@ Criteria:
 4. The definition must be concise (under 15 words) and plain text (no HTML).
 5. Provide a short, fun example sentence.
 
-Respond ONLY with a JSON object with these fields:
+Respond ONLY with raw JSON (no markdown, no code blocks) with these fields:
 {
   "word": "string — the word itself, capitalized",
   "phonetic": "string — sound-it-out pronunciation",
@@ -80,7 +80,7 @@ async function generateWithGemini(previousWords) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contents: [{ parts: [{ text: buildPrompt(previousWords) }] }],
-        generationConfig: { responseMimeType: "application/json" },
+        
       }),
     }
   );
@@ -143,6 +143,8 @@ async function generateWord(previousWords = []) {
     const shouldFallback =
       error.message.includes("429") ||
       error.message.includes("404") ||
+      error.message.includes("400") ||
+      error.message.includes("INVALID_ARGUMENT") ||
       error.message.includes("quota") ||
       error.message.includes("RESOURCE_EXHAUSTED") ||
       error.message.includes("NOT_FOUND");
