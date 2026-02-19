@@ -18,7 +18,5 @@ jobs:
           # ADD THIS LINE BELOW:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          # Replace the line below with the command that runs your specific script
-          # For example, if you have a python script: python main.py
-          # Or a node script: node index.js
-          echo "Running my word of the day script..."
+          npm install
+          node generate-daily.mjs
