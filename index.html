@@ -1,68 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Streamer's Word of the Day</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Outfit', 'sans-serif'],
-              mono: ['Space Mono', 'monospace'],
-            },
-            colors: {
-              twitch: {
-                light: '#a970ff',
-                base: '#9146FF',
-                dark: '#451093'
-              }
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      body {
-        background-color: #0f0e11;
-        color: #efeff1;
-      }
-      .fade-in {
-        animation: fadeIn 0.5s ease-out forwards;
-      }
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
-    "vite": "https://esm.sh/vite@^7.3.1",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
-  }
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import fetch from 'node-fetch';
+import fs from 'fs';
+
+const CONFIG = {
+    GEMINI_KEY: process.env.GEMINI_API_KEY,
+    DISCORD_URL: process.env.DISCORD_WEBHOOK_URL,
+    SAVE_FILE: 'current_word.txt',
+    HISTORY_FILE: 'word_history.json',
+    PRIMARY_MODEL: "gemini-3-flash-preview",
+    BACKUP_MODEL: "gemini-1.5-flash"
+};
+
+const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'America/Los_Angeles' });
+
+async function postToDiscord(wordData) {
+    const discordPayload = {
+        // We removed 'username' so Discord uses your custom profile picture/name
+        embeds: [{
+            title: wordData.word.toUpperCase(),
+            description: `**(${wordData.partOfSpeech})**\n\n**Definition:** ${wordData.definition}\n\n**Example:** *"${wordData.example}"*`,
+            color: 0x9b59b6
+        }]
+    };
+    
+    await fetch(CONFIG.DISCORD_URL, { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(discordPayload) 
+    });
 }
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
-  <body>
-    <div id="root">
-        <div style="height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; color: #52525b; font-family: sans-serif; flex-direction: column; gap: 10px;">
-            <svg style="animation: spin 1s linear infinite;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>
-            <span>Loading...</span>
-        </div>
-        <style>
-            @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        </style>
-    </div>
-    <script type="module" src="/index.tsx"></script>
-  </body>
-</html>
+
+async function generateWithRetry(modelName, prompt, retries = 3) {
+    const genAI = new GoogleGenerativeAI(CONFIG.GEMINI_KEY);
+    const model = genAI.getGenerativeModel({ model: modelName });
+
+    for (let i = 0; i < retries; i++) {
+        try {
+            const result = await model.generateContent(prompt);
+            return result.response.text().replace(/```json|```/g, "").trim();
+        } catch (error) {
+            if (error.message.includes("503") || error.message.includes("429")) {
+                console.log(`Model busy. Retry ${i + 1}/3...`);
+                await new Promise(r => setTimeout(r, 5000));
+            } else { throw error; }
+        }
+    }
+    throw new Error("Retries exhausted.");
+}
+
+async function main() {
+    if (fs.existsSync(CONFIG.SAVE_FILE)) {
+        try {
+            const saved = JSON.parse(fs.readFileSync(CONFIG.SAVE_FILE, 'utf8'));
+            if (saved.generatedDate === today) return;
+        } catch (e) {}
+    }
+
+    let historyData = [];
+    if (fs.existsSync(CONFIG.HISTORY_FILE)) {
+        try { historyData = JSON.parse(fs.readFileSync(CONFIG.HISTORY_FILE, 'utf8')); } catch (e) {}
+    }
+    const usedWords = historyData.slice(0, 30).map(h => h.word.toLowerCase());
+
+    const prompt = `Provide a unique "Word of the Day". JSON ONLY: {"word": "text", "partOfSpeech": "noun/verb/adj", "definition": "clear meaning", "example": "sentence using it"}. DO NOT use: ${usedWords.join(", ")}`;
+    
+    let responseText;
+    try {
+        responseText = await generateWithRetry(CONFIG.PRIMARY_MODEL, prompt);
+    } catch (e) {
+        responseText = await generateWithRetry(CONFIG.BACKUP_MODEL, prompt);
+    }
+
+    try {
+        const wordData = JSON.parse(responseText);
+        wordData.generatedDate = today;
+        
+        fs.writeFileSync(CONFIG.SAVE_FILE, JSON.stringify(wordData));
+        historyData.unshift(wordData);
+        fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(historyData.slice(0, 50), null, 2));
+        
+        await postToDiscord(wordData);
+        console.log("Word posted successfully!");
+    } catch (err) {
+        console.error("Error:", err.message);
+        process.exit(1);
+    }
+}
+
+main();
