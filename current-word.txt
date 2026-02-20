@@ -1,7 +1,8 @@
-"word": "TERGIVERSATION",
-  "phonetic": "tur-jiv-er-SAY-shun",
+{
+  "word": "OPSIMATH",
+  "phonetic": "OP-suh-math",
   "partOfSpeech": "noun",
-  "definition": "The act of evading a straightforward statement or shifting one's opinions; equivocation or desertion of a cause.",
-  "example": "The politician's constant tergiversation on the controversial policy left the voters confused about his true stance.",
+  "definition": "A person who begins to learn or study only late in life.",
+  "example": "He became a true opsimath, taking up ancient Greek and calculus in his eighties.",
   "generatedDate": "2026-02-20"
 }
