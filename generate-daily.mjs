@@ -10,8 +10,8 @@ const CONFIG = {
     HISTORY_FILE: 'word-history.json' // Matches your GitHub file list
 };
 
-// Forces the date check to Pacific Time
-const today = new Date().toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles' });
+// This creates a reliable "2026-02-20" format that won't break
+const today = new Date().toLocaleString('sv-SE', { timeZone: 'America/Los_Angeles' }).split(' ')[0];
 
 const PROMPT = `Pick one interesting, sophisticated, or unusual English word. 
 JSON ONLY: {
