@@ -1,1 +1,1 @@
-Tergiversation: The act of evading a straightforward statement or shifting one's opinions; equivocation or desertion of a cause.
+{"word":"Susurrus","pronunciation":"su-SUR-uhs","type":"noun","definition":"A whispering, murmuring, or rustling sound.","example":"The soft susurrus of the wind through the tall pines provided a calming soundtrack to their evening walk.","date":"2/20/2026"}
