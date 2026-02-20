@@ -1,8 +1,7 @@
-{
-  "word": "TERGIVERSATION",
+"word": "TERGIVERSATION",
   "phonetic": "tur-jiv-er-SAY-shun",
   "partOfSpeech": "noun",
   "definition": "The act of evading a straightforward statement or shifting one's opinions; equivocation or desertion of a cause.",
   "example": "The politician's constant tergiversation on the controversial policy left the voters confused about his true stance.",
-  "generatedDate": "Fri Feb 20 2026"
+  "generatedDate": "2026-02-20"
 }
