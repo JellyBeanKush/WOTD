@@ -1,39 +1,23 @@
-name: Daily Word of the Day
-
+name: Daily Word Bot
 on:
   schedule:
-    # 16:07 UTC is 8:07 AM Pacific
     - cron: '7 16 * * *'
-  workflow_dispatch: 
-
+  workflow_dispatch:
 jobs:
-  run-wotd:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install Dependencies
-        run: npm install @google/generative-ai node-fetch
-
-      - name: Run WOTD Script
+      - uses: actions/checkout@v4
+      - run: npm install
+      - name: Run Script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          TZ: 'America/Los_Angeles'
-        run: node generate-daily.mjs
-
-      - name: Commit and Push Changes
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: node index.mjs
+      - name: Commit Changes
         run: |
-          git config --global user.name "WOTDBot"
+          git config --global user.name "WordBot"
           git config --global user.email "actions@github.com"
-          git add current-word.txt word-history.json
-          git commit -m "Update daily word files [skip ci]" || echo "No changes to commit"
+          git add current_word.txt word_history.json
+          git commit -m "Update history [skip ci]" || echo "No changes"
           git push
