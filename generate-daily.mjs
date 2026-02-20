@@ -10,11 +10,14 @@ const CONFIG = {
 };
 
 const PROMPT = `Pick one interesting, sophisticated, or unusual English word for a "Word of the Day" post. 
+Ensure the word is distinct and avoid extremely common words.
 JSON ONLY: {"word": "word", "definition": "definition", "example": "A sentence using the word."}`;
 
 const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
-// --- RETRY LOGIC FOR BUSY SERVERS ---
+/**
+ * Retries a function if the AI service is overloaded (503 error).
+ */
 async function retryRequest(fn, name, maxRetries = 3) {
     for (let i = 0; i < maxRetries; i++) {
         try {
@@ -23,7 +26,7 @@ async function retryRequest(fn, name, maxRetries = 3) {
             const isBusy = err.message.includes("503") || err.message.includes("demand") || err.message.includes("Overloaded");
             if (isBusy && i < maxRetries - 1) {
                 const waitTime = (i + 1) * 15000; 
-                console.log(`⚠️ ${name} is busy. Waiting ${waitTime/1000}s to try again...`);
+                console.log(`⚠️ ${name} is busy (503). Waiting ${waitTime/1000}s... (Attempt ${i + 1}/${maxRetries})`);
                 await sleep(waitTime);
             } else {
                 throw err;
@@ -57,28 +60,28 @@ async function getGroqWord() {
 async function main() {
     let wotd = null;
 
-    // TRY GEMINI
+    // TIER 1: GEMINI
     if (CONFIG.GEMINI_KEY) {
         try {
-            console.log("🚀 Attempting Gemini for Word of the Day...");
+            console.log("🚀 Requesting Word of the Day from Gemini...");
             wotd = await retryRequest(getGeminiWord, "Gemini");
         } catch (e) {
             console.log(`❌ Gemini failed: ${e.message}`);
         }
     }
 
-    // FALLBACK TO GROQ
+    // TIER 2: GROQ FALLBACK
     if (!wotd && CONFIG.GROQ_KEY) {
         try {
-            console.log("⚡ Gemini failed or busy. Switching to Groq fallback...");
+            console.log("⚡ Switching to Groq fallback...");
             wotd = await retryRequest(getGroqWord, "Groq");
         } catch (e) {
-            console.log(`❌ Groq fallback failed: ${e.message}`);
+            console.log(`❌ Groq failed: ${e.message}`);
         }
     }
 
     if (wotd) {
-        // SAVE FOR MIX IT UP
+        // SAVE FOR MIX IT UP (Word and Definition only)
         const saveString = `${wotd.word}: ${wotd.definition}`;
         fs.writeFileSync(CONFIG.SAVE_FILE, saveString);
         console.log(`💾 Saved "${wotd.word}" to ${CONFIG.SAVE_FILE}`);
