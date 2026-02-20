@@ -1,5 +1,29 @@
 [
   {
+    "word": "TERGIVERSATION",
+    "phonetic": "tur-jiv-er-SAY-shun",
+    "partOfSpeech": "noun",
+    "definition": "The act of evading a straightforward statement or shifting one's opinions; equivocation or desertion of a cause.",
+    "example": "The politician's constant tergiversation on the controversial policy left the voters confused about his true stance.",
+    "generatedDate": "Fri Feb 20 2026"
+  },
+  {
+    "word": "XERTZ",
+    "phonetic": "ZERTS",
+    "partOfSpeech": "verb",
+    "definition": "To gulp down something quickly and greedily.",
+    "example": "I need to xertz this energy drink before the boss fight starts!",
+    "generatedDate": "Fri Feb 20 2026"
+  },
+  {
+    "word": "PANDICULATION",
+    "phonetic": "pan-dik-yoo-LAY-shun",
+    "partOfSpeech": "noun",
+    "definition": "The act of stretching and yawning at the same time.",
+    "example": "After a twelve-hour subathon, a long pandiculation is exactly what I need.",
+    "generatedDate": "Thu Feb 19 2026"
+  },
+  {
     "word": "GRAWLIX",
     "phonetic": "GRAW-liks",
     "partOfSpeech": "noun",
@@ -174,27 +198,5 @@
     "definition": "Giving opinions on subjects that one knows nothing about.",
     "example": "Don't be an ultracrepidarian in the comments about a game you never played.",
     "generatedDate": "Fri Jan 30 2026"
-  },
-  {
-    "word": "NOCTIVAGANT",
-    "phonetic": "nok-TIV-uh-guhnt",
-    "partOfSpeech": "adjective",
-    "definition": "Wandering or traveling about at night.",
-    "example": "I'm feeling pretty noctivagant tonight, so let's explore this dark dungeon in-game!",
-    "generatedDate": "Thu Feb 19 2026"
-  },
-  {
-    "word": "PANDICULATION",
-    "phonetic": "pan-dik-yoo-LAY-shun",
-    "partOfSpeech": "noun",
-    "definition": "The act of stretching and yawning at the same time.",
-    "example": "After a twelve-hour subathon, a long pandiculation is exactly what I need."
-  },
-  {
-    "word": "XERTZ",
-    "phonetic": "ZERTS",
-    "partOfSpeech": "verb",
-    "definition": "To gulp down something quickly and greedily.",
-    "example": "I need to xertz this energy drink before the boss fight starts!"
   }
 ]
