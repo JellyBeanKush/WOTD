@@ -6,66 +6,29 @@ const CONFIG = {
     GEMINI_KEY: process.env.GEMINI_API_KEY,
     GROQ_KEY: process.env.GROQ_API_KEY,
     DISCORD_URL: "https://discord.com/api/webhooks/1474196919332114574/3dxnI_sWfWeyKHIjNruIwl7T4_d6a0j7Ilm-lZxEudJsgxyKBUBgQqgBFczLF9fXOUwk",
-    SAVE_FILE: 'current_wotd.txt'
+    SAVE_FILE: 'current-word.txt', // Matches your GitHub file list
+    HISTORY_FILE: 'word-history.json' // Matches your GitHub file list
 };
 
-// Locked to Pacific Time
+// Forces the date check to Pacific Time
 const today = new Date().toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles' });
 
-const PROMPT = `Pick one interesting, sophisticated, or unusual English word for a "Word of the Day" post. 
+const PROMPT = `Pick one interesting, sophisticated, or unusual English word. 
 JSON ONLY: {
   "word": "WORD", 
   "pronunciation": "PRON-un-si-AY-shun", 
   "type": "noun/verb/adj", 
   "definition": "definition", 
-  "example": "A sentence using the word."
+  "example": "sentence"
 }
-Note: Use CAPITAL letters for the stressed syllable in the pronunciation.`;
-
-const sleep = (ms) => new Promise(res => setTimeout(res, ms));
-
-async function retryRequest(fn, name, maxRetries = 3) {
-    for (let i = 0; i < maxRetries; i++) {
-        try {
-            return await fn();
-        } catch (err) {
-            const isBusy = err.message.includes("503") || err.message.includes("demand") || err.message.includes("Overloaded");
-            if (isBusy && i < maxRetries - 1) {
-                const waitTime = (i + 1) * 15000;
-                console.log(`⚠️ ${name} busy. Retrying in ${waitTime/1000}s...`);
-                await sleep(waitTime);
-            } else { throw err; }
-        }
-    }
-}
-
-async function getGeminiWord() {
-    const genAI = new GoogleGenerativeAI(CONFIG.GEMINI_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
-    const result = await model.generateContent(PROMPT);
-    return JSON.parse(result.response.text().replace(/```json|```/g, "").trim());
-}
-
-async function getGroqWord() {
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: { "Authorization": `Bearer ${CONFIG.GROQ_KEY}`, "Content-Type": "application/json" },
-        body: JSON.stringify({
-            model: "llama-3.3-70b-versatile",
-            messages: [{ role: "user", content: PROMPT }],
-            response_format: { type: "json_object" }
-        })
-    });
-    const json = await response.json();
-    return JSON.parse(json.choices[0].message.content);
-}
+Note: In the pronunciation, use CAPITAL letters for the stressed syllable.`;
 
 async function postToDiscord(wotd) {
     const discordPayload = {
         username: "Word of the Day",
         embeds: [{
             description: `# **${wotd.word.toUpperCase()}**\n**${wotd.pronunciation}** (*${wotd.type}*)\n\n**Definition**\n> ${wotd.definition}\n\n**Example**\n*"${wotd.example}"*`,
-            color: 0x9b59b6 
+            color: 0x9b59b6 // Purple accent from Grawlix image
         }]
     };
     await fetch(CONFIG.DISCORD_URL, {
@@ -78,34 +41,54 @@ async function postToDiscord(wotd) {
 async function main() {
     let wotd = null;
 
-    // 1. CHECK IF WE ALREADY POSTED TODAY
+    // 1. REPOST/UPDATE CHECK
     if (fs.existsSync(CONFIG.SAVE_FILE)) {
         try {
-            const fileContent = JSON.parse(fs.readFileSync(CONFIG.SAVE_FILE, 'utf8'));
-            if (fileContent.date === today) {
-                console.log(`♻️ Found existing word for ${today}. Reposting...`);
-                await postToDiscord(fileContent);
-                return; 
+            const saved = JSON.parse(fs.readFileSync(CONFIG.SAVE_FILE, 'utf8'));
+            if (saved.date === today) {
+                console.log(`♻️ Found word for ${today} in current-word.txt. Updating formatting...`);
+                await postToDiscord(saved);
+                return;
             }
-        } catch (e) { console.log("Old file format detected, generating fresh word."); }
+        } catch (e) { console.log("Updating file to new JSON format..."); }
     }
 
-    // 2. GENERATE NEW WORD IF IT'S A NEW DAY
-    console.log(`🚀 New day (${today})! Generating word...`);
-    try {
-        wotd = await retryRequest(getGeminiWord, "Gemini");
-    } catch (e) {
-        console.log("⚠️ Gemini failed, trying Groq fallback...");
-        try { wotd = await retryRequest(getGroqWord, "Groq"); } 
-        catch (e2) { console.error("💀 All AI models failed."); }
+    // 2. HISTORY CHECK
+    let historyWords = [];
+    if (fs.existsSync(CONFIG.HISTORY_FILE)) {
+        try {
+            const historyData = JSON.parse(fs.readFileSync(CONFIG.HISTORY_FILE, 'utf8'));
+            historyWords = historyData.map(item => (typeof item === 'string' ? item : item.word).toLowerCase());
+        } catch (e) { console.log("History file initialized."); }
     }
 
-    // 3. SAVE AND POST
+    // 3. GENERATE NEW WORD
+    console.log(`🚀 No post found for ${today}. Generating new word...`);
+    const genAI = new GoogleGenerativeAI(CONFIG.GEMINI_KEY);
+    const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
+
+    for (let i = 0; i < 5; i++) {
+        const result = await model.generateContent(PROMPT + ` DO NOT use these words: ${historyWords.join(", ")}`);
+        const tempWotd = JSON.parse(result.response.text().replace(/```json|```/g, "").trim());
+        
+        if (!historyWords.includes(tempWotd.word.toLowerCase())) {
+            wotd = tempWotd;
+            break;
+        }
+        console.log(`🔄 AI chose "${tempWotd.word}" which is in history. Retrying...`);
+    }
+
     if (wotd) {
-        const dataToSave = { ...wotd, date: today };
-        fs.writeFileSync(CONFIG.SAVE_FILE, JSON.stringify(dataToSave));
+        wotd.date = today;
+        fs.writeFileSync(CONFIG.SAVE_FILE, JSON.stringify(wotd));
+        
+        // Update word-history.json
+        const fullHistory = fs.existsSync(CONFIG.HISTORY_FILE) ? JSON.parse(fs.readFileSync(CONFIG.HISTORY_FILE, 'utf8')) : [];
+        fullHistory.push({ word: wotd.word, date: today });
+        fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(fullHistory, null, 2));
+        
         await postToDiscord(wotd);
-        console.log("✅ Success!");
+        console.log(`✅ Posted ${wotd.word} successfully!`);
     }
 }
 
