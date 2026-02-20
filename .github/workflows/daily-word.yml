@@ -33,7 +33,7 @@ jobs:
       - name: Commit and Push Changes
         run: |
           git config --global user.name "WOTDBot"
-          git config --global user.email "bot@github.com"
-          git add current_wotd.txt
-          git commit -m "Update Daily Word [skip ci]" || exit 0
+          git config --global user.email "actions@github.com"
+          git add current-word.txt word-history.json
+          git commit -m "Update daily word files [skip ci]" || echo "No changes to commit"
           git push
