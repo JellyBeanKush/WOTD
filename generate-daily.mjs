@@ -22,23 +22,22 @@ async function main() {
         const payload = {
             contents: [{
                 parts: [{
-                    text: `Generate a "Word of the Day" that is a unique, interesting, or uncommon dictionary word (like 'Opsimath' or 'Ultracrepidarian'). 
+                    text: `Generate a "Word of the Day" that is a unique or uncommon dictionary word. 
                     
                     CRITICAL RULES:
-                    1. It MUST be a single, real word. No compound gaming tropes like 'Glass Cannon'.
-                    2. Do NOT use these previous words: ${history.join(", ")}.
-                    3. The example sentence MUST be tailored to a gamer, Twitch streamer, or degenerate internet culture vibe.
-                    4. Adult themes and language are PERMITTED. 
+                    1. MUST be a single word.
+                    2. Do NOT use: ${history.join(", ")}.
+                    3. Example sentence MUST be short, punchy, and have a streamer/gamer/degenerate vibe.
+                    4. Example sentence length limit: Max 15-20 words. Keep it brief.
+                    5. Adult language is allowed.
 
-                    Format it EXACTLY like this:
-                    # [WORD IN ALL CAPS]
+                    Format:
+                    # [WORD]
                     **[Pronunciation]** ([part of speech])
                     ### Definition
                     > [Definition]
                     ### Example
-                    *[Funny, gamer-focused, or streamer-vibe example sentence]*
-
-                    No conversational filler.`
+                    *[Short, funny gamer example]*`
                 }]
             }]
         };
@@ -50,14 +49,11 @@ async function main() {
         });
 
         const data = await response.json();
-        
         if (data.error) throw new Error(data.error.message);
 
         const text = data.candidates[0].content.parts[0].text;
-        const lines = text.split('\n').filter(line => line.trim() !== "");
-        const newWord = lines[0].replace('# ', '').trim();
+        const newWord = text.split('\n')[0].replace('# ', '').trim();
 
-        // Send to Discord
         await fetch(process.env.DISCORD_WEBHOOK_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -66,7 +62,6 @@ async function main() {
             })
         });
 
-        // Update your files
         history.push(newWord);
         fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(history, null, 2));
         fs.writeFileSync(CONFIG.CURRENT_FILE, newWord);
