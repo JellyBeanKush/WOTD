@@ -1,8 +1,1 @@
-{
-  "word": "OPSIMATH",
-  "phonetic": "OP-suh-math",
-  "partOfSpeech": "noun",
-  "definition": "A person who begins to learn or study only late in life.",
-  "example": "He became a true opsimath, taking up ancient Greek and calculus in his eighties.",
-  "generatedDate": "2026-02-20"
-}
+GLASS CANNON
