@@ -1,19 +1,30 @@
+name: Word of the Day Bot
+
+on:
+  schedule:
+    # This runs at 14:00 UTC (6:00 AM PST / 9:00 AM EST) every day
+    - cron: '0 14 * * *'
+  workflow_dispatch: # Allows you to run it manually for testing
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          
+
       - name: Install Dependencies
         run: npm install @google/generative-ai node-fetch
 
       - name: Run WOTD Script
-        # This MUST match your file name exactly
-        run: node generate-daily.mjs 
+        # We are using the specific name you gave the file
+        run: node generate-daily.mjs
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
