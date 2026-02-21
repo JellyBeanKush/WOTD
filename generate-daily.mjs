@@ -41,7 +41,7 @@ async function main() {
     const usedWords = historyData.map(h => h.word.toLowerCase());
 
     const genAI = new GoogleGenerativeAI(CONFIG.GEMINI_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
     const result = await model.generateContent(`Unique vocabulary word. JSON ONLY: {"word": "...", "partOfSpeech": "...", "definition": "...", "example": "..."}. Avoid: ${usedWords.join(", ")}`);
     const wordData = JSON.parse(result.response.text().replace(/```json|```/g, "").trim());
 
