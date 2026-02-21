@@ -1,23 +1,19 @@
-name: Daily Word Bot
-on:
-  schedule:
-    - cron: '7 16 * * *'
-  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm install
-      - name: Run Script
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install Dependencies
+        run: npm install @google/generative-ai node-fetch
+
+      - name: Run WOTD Script
+        # This MUST match your file name exactly
+        run: node generate-daily.mjs 
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: node generate-daily.mjs
-      - name: Commit Changes
-        run: |
-          git config --global user.name "WordBot"
-          git config --global user.email "actions@github.com"
-          git add current_word.txt word_history.json
-          git commit -m "Update history [skip ci]" || echo "No changes"
-          git push
