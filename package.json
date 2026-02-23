@@ -8,6 +8,7 @@
     "start": "node generate-daily.mjs"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "node-fetch": "^3.3.2"
   },
   "engines": {
