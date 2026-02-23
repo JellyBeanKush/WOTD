@@ -23,7 +23,7 @@ async function postToDiscord(wordData) {
                          `*[${wordData.phonetic}] (${wordData.partOfSpeech})*\n\n` +
                          `**Definition**\n> ${wordData.definition}\n\n` +
                          `**Example**\n*${wordData.example}*\n\n` +
-                         `[SOURCE](${wordData.sourceUrl})`,
+                         `[Learn More](${wordData.sourceUrl})`,
             color: 0x9b59b6, 
             image: { url: wordData.imageUrl }
         }]
@@ -54,41 +54,36 @@ async function generateWithRetry(modelName, prompt, retries = 3) {
 async function main() {
     let historyData = [];
     
-    // 1. IMPROVED LOAD: Try to recover history, but don't die if it fails
+    // Load existing history so we don't lose it
     if (fs.existsSync(CONFIG.HISTORY_FILE)) {
         try { 
             const content = fs.readFileSync(CONFIG.HISTORY_FILE, 'utf8');
-            if (content.trim()) {
-                const parsed = JSON.parse(content);
-                historyData = Array.isArray(parsed) ? parsed.filter(item => typeof item === 'object' && item !== null) : [];
-            }
+            const parsed = JSON.parse(content);
+            historyData = Array.isArray(parsed) ? parsed : [];
         } catch (e) { 
-            console.log("⚠️ History file is corrupted. Bot will attempt to post anyway and repair the file.");
-            // If the file is broken, we'll just start with an empty history for this run
-            // and the next save will overwrite the broken file with a clean one.
-            historyData = []; 
+            console.log("Starting history from scratch.");
         }
     }
 
     if (historyData.length > 0 && historyData[0].generatedDate === todayFormatted) {
-        console.log("Already handled today.");
+        console.log("Already posted today.");
         return;
     }
 
     const usedWords = historyData.slice(0, 100).map(h => h.word);
     
     const prompt = `Provide a unique "Word of the Day".
-    Dictionary definition tone. Example must be funny and use Twitch/streamer lingo (chat, pogs, malting, etc).
+    Dictionary definition tone. 
     JSON ONLY: {
-      "word": "THE WORD",
-      "phonetic": "phonetic-spelling",
+      "word": "WORD",
+      "phonetic": "spelled-out-phonetic-with-EMPHASIS-CAPS",
       "partOfSpeech": "noun/verb/adj",
-      "definition": "Dictionary definition",
-      "example": "Streamer-themed example",
-      "sourceUrl": "Wikipedia URL",
+      "definition": "Formal definition",
+      "example": "One short, punchy sentence using streamer lingo (max 15 words).",
+      "sourceUrl": "Wiktionary or Wikipedia URL",
       "imageUrl": "Direct .jpg or .png link from Wikipedia"
     }. 
-    DO NOT use these words: ${usedWords.join(", ")}`;
+    DO NOT use: ${usedWords.join(", ")}`;
     
     let responseText;
     try {
@@ -101,19 +96,17 @@ async function main() {
         const wordData = JSON.parse(responseText);
         wordData.generatedDate = todayFormatted;
         
-        // 2. OVERWRITE current_word.txt
+        // Save current day's word separately
         fs.writeFileSync(CONFIG.SAVE_FILE, JSON.stringify(wordData, null, 2));
         
-        // 3. ADD TO TOP
+        // Update history (Newest at top)
         historyData.unshift(wordData);
-        
-        // 4. SAVE UPDATED HISTORY (This effectively REPAIRS the file)
-        fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(historyData.slice(0, 100), null, 2));
+        fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(historyData, null, 2));
         
         await postToDiscord(wordData);
-        console.log(`Success: Posted ${wordData.word}. History file has been repaired and updated.`);
+        console.log(`Success! Posted ${wordData.word} and updated all files.`);
     } catch (err) {
-        console.error("Critical JSON Parse Error from AI:", err.message);
+        console.error("JSON Error:", err.message);
         process.exit(1);
     }
 }
