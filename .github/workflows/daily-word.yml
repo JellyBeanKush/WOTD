@@ -1,38 +1,37 @@
-name: Word of the Day Bot
+name: Generate Daily Word
 
 on:
   schedule:
-    # This runs at 14:00 UTC (6:00 AM PST / 9:00 AM EST) every day
-    - cron: '0 14 * * *'
-  workflow_dispatch: # Allows you to run it manually for testing
+    - cron: '0 12 * * *' # Runs daily at 12:00 UTC
+  workflow_dispatch: # Allows manual trigger
 
 jobs:
-  build:
+  generate:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write # Crucial: Allows the bot to save files back to your repo
     steps:
-      - name: Checkout Code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Install Dependencies
-        run: npm install @google/generative-ai node-fetch
+      - name: Install dependencies
+        run: npm install
 
-      - name: Run WOTD Script
-        # We are using the specific name you gave the file
-        run: node generate-daily.mjs
+      - name: Run script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: node generate-daily.mjs
 
-      - name: Commit and Push Changes
+      - name: Commit and Push changes
         run: |
-          git config --global user.name "WOTD-Bot"
+          git config --global user.name "GitHub Action Bot"
           git config --global user.email "actions@github.com"
-          git add word-history.json current-word.txt
-          git commit -m "Update WOTD history [skip ci]" || echo "No changes"
+          git add current-word.txt word-history.json
+          git commit -m "Update Daily Word and History [skip ci]" || echo "No changes to commit"
           git push
