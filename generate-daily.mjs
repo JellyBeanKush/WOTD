@@ -11,7 +11,7 @@ const CONFIG = {
     BACKUP_MODEL: "gemini-1.5-flash-latest" 
 };
 
-// Matches your JSON date format: "Mon Feb 23 2026"
+// Matches your current JSON date format exactly: "Mon Feb 23 2026"
 const todayFormatted = new Date().toDateString(); 
 const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/Los_Angeles' };
 const displayDate = new Date().toLocaleDateString('en-US', options);
@@ -20,7 +20,6 @@ async function postToDiscord(wordData) {
     const discordPayload = {
         embeds: [{
             title: `✨ Word of the Day - ${displayDate}`,
-            // Streamer/Chat vibe description
             description: `Yo chat! Today's word is **${wordData.word}** (${wordData.phonetic}).\n\n**Definition:** ${wordData.definition}\n\n*Example:* ${wordData.example}\n\n[SOURCE](${wordData.sourceUrl})`,
             color: 0x3498db, 
             image: {
@@ -58,12 +57,12 @@ async function main() {
         try { 
             const content = fs.readFileSync(CONFIG.HISTORY_FILE, 'utf8');
             historyData = JSON.parse(content); 
-            // This filters out those stray strings (like "GLASS CANNON") automatically
-            historyData = historyData.filter(item => typeof item === 'object');
+            // 1. CLEANUP: This removes any accidental strings (like "GLASS CANNON") from your JSON
+            historyData = historyData.filter(item => typeof item === 'object' && item !== null);
         } catch (e) { console.error("History file issue, starting fresh."); }
     }
 
-    // Check if we already posted today
+    // 2. CHECK: Only proceed if today's date isn't already at the top
     if (historyData.length > 0 && historyData[0].generatedDate === todayFormatted) {
         console.log("Word of the day already handled.");
         return;
@@ -96,11 +95,15 @@ async function main() {
         wordData.generatedDate = todayFormatted;
         
         fs.writeFileSync(CONFIG.SAVE_FILE, JSON.stringify(wordData));
+        
+        // 3. UNSHIFT: This puts the newest word at index 0 (the top of the file)
         historyData.unshift(wordData);
+        
+        // 4. SAVE: Limits the file to the 100 most recent words
         fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(historyData.slice(0, 100), null, 2));
         
         await postToDiscord(wordData);
-        console.log(`Posted and saved: ${wordData.word}`);
+        console.log(`Posted and saved to top: ${wordData.word}`);
     } catch (err) {
         console.error("Critical Error:", err.message);
         process.exit(1);
