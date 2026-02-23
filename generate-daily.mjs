@@ -5,8 +5,8 @@ import fs from 'fs';
 const CONFIG = {
     GEMINI_KEY: process.env.GEMINI_API_KEY,
     DISCORD_URL: process.env.DISCORD_WEBHOOK_URL,
-    SAVE_FILE: 'current_word.txt',        // Overwritten daily
-    HISTORY_FILE: 'word-history.json',    // Added to daily
+    SAVE_FILE: 'current_word.txt',
+    HISTORY_FILE: 'word-history.json',
     PRIMARY_MODEL: "gemini-2.5-flash", 
     BACKUP_MODEL: "gemini-1.5-flash-latest" 
 };
@@ -54,21 +54,22 @@ async function generateWithRetry(modelName, prompt, retries = 3) {
 async function main() {
     let historyData = [];
     
-    // 1. LOAD HISTORY (Safe Load)
+    // 1. IMPROVED LOAD: Try to recover history, but don't die if it fails
     if (fs.existsSync(CONFIG.HISTORY_FILE)) {
         try { 
             const content = fs.readFileSync(CONFIG.HISTORY_FILE, 'utf8');
-            const parsed = JSON.parse(content);
-            // Keep only the objects to clean up the file
-            historyData = Array.isArray(parsed) ? parsed.filter(item => typeof item === 'object' && item !== null) : [];
+            if (content.trim()) {
+                const parsed = JSON.parse(content);
+                historyData = Array.isArray(parsed) ? parsed.filter(item => typeof item === 'object' && item !== null) : [];
+            }
         } catch (e) { 
-            console.error("Could not parse history. Check if the JSON is valid.");
-            // If it's corrupted, we stop to prevent overwriting your history with a blank list
-            process.exit(1); 
+            console.log("⚠️ History file is corrupted. Bot will attempt to post anyway and repair the file.");
+            // If the file is broken, we'll just start with an empty history for this run
+            // and the next save will overwrite the broken file with a clean one.
+            historyData = []; 
         }
     }
 
-    // 2. CHECK FOR REPEATS
     if (historyData.length > 0 && historyData[0].generatedDate === todayFormatted) {
         console.log("Already handled today.");
         return;
@@ -77,7 +78,7 @@ async function main() {
     const usedWords = historyData.slice(0, 100).map(h => h.word);
     
     const prompt = `Provide a unique "Word of the Day".
-    Dictionary definition tone. Example must be funny and use Twitch/streamer lingo.
+    Dictionary definition tone. Example must be funny and use Twitch/streamer lingo (chat, pogs, malting, etc).
     JSON ONLY: {
       "word": "THE WORD",
       "phonetic": "phonetic-spelling",
@@ -100,19 +101,19 @@ async function main() {
         const wordData = JSON.parse(responseText);
         wordData.generatedDate = todayFormatted;
         
-        // 3. OVERWRITE current_word.txt (Daily info only)
+        // 2. OVERWRITE current_word.txt
         fs.writeFileSync(CONFIG.SAVE_FILE, JSON.stringify(wordData, null, 2));
         
-        // 4. ADD TO TOP of history array
+        // 3. ADD TO TOP
         historyData.unshift(wordData);
         
-        // 5. SAVE UPDATED HISTORY (The whole list)
-        fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(historyData, null, 2));
+        // 4. SAVE UPDATED HISTORY (This effectively REPAIRS the file)
+        fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(historyData.slice(0, 100), null, 2));
         
         await postToDiscord(wordData);
-        console.log(`Success: ${wordData.word} added to history top.`);
+        console.log(`Success: Posted ${wordData.word}. History file has been repaired and updated.`);
     } catch (err) {
-        console.error("JSON Error:", err.message);
+        console.error("Critical JSON Parse Error from AI:", err.message);
         process.exit(1);
     }
 }
