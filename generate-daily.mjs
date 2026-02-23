@@ -1,75 +1,108 @@
-import fetch from "node-fetch";
-import fs from "fs";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import fetch from 'node-fetch';
+import fs from 'fs';
 
 const CONFIG = {
-    MODEL_NAME: "gemini-flash-latest",
-    HISTORY_FILE: "word-history.json",
-    CURRENT_FILE: "current-word.txt",
-    COLOR: 0xa020f0 
+    GEMINI_KEY: process.env.GEMINI_API_KEY,
+    DISCORD_URL: process.env.DISCORD_WEBHOOK_URL,
+    SAVE_FILE: 'current_word.txt',
+    HISTORY_FILE: 'word-history.json',
+    PRIMARY_MODEL: "gemini-2.5-flash", 
+    BACKUP_MODEL: "gemini-1.5-flash-latest" 
 };
 
-async function main() {
-    let history = [];
-    if (fs.existsSync(CONFIG.HISTORY_FILE)) {
+// Matches your JSON date format: "Mon Feb 23 2026"
+const todayFormatted = new Date().toDateString(); 
+const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/Los_Angeles' };
+const displayDate = new Date().toLocaleDateString('en-US', options);
+
+async function postToDiscord(wordData) {
+    const discordPayload = {
+        embeds: [{
+            title: `✨ Word of the Day - ${displayDate}`,
+            // Streamer/Chat vibe description
+            description: `Yo chat! Today's word is **${wordData.word}** (${wordData.phonetic}).\n\n**Definition:** ${wordData.definition}\n\n*Example:* ${wordData.example}\n\n[SOURCE](${wordData.sourceUrl})`,
+            color: 0x3498db, 
+            image: {
+                url: wordData.imageUrl 
+            }
+        }]
+    };
+    
+    await fetch(CONFIG.DISCORD_URL, { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(discordPayload) 
+    });
+}
+
+async function generateWithRetry(modelName, prompt, retries = 3) {
+    const genAI = new GoogleGenerativeAI(CONFIG.GEMINI_KEY);
+    const model = genAI.getGenerativeModel({ model: modelName });
+
+    for (let i = 0; i < retries; i++) {
         try {
-            history = JSON.parse(fs.readFileSync(CONFIG.HISTORY_FILE, 'utf8'));
-        } catch (e) { history = []; }
+            const result = await model.generateContent(prompt);
+            const text = result.response.text().replace(/```json|```/g, "").trim();
+            return text;
+        } catch (error) {
+            if (i < retries - 1) await new Promise(r => setTimeout(r, 5000));
+            else throw error;
+        }
+    }
+}
+
+async function main() {
+    let historyData = [];
+    if (fs.existsSync(CONFIG.HISTORY_FILE)) {
+        try { 
+            const content = fs.readFileSync(CONFIG.HISTORY_FILE, 'utf8');
+            historyData = JSON.parse(content); 
+            // This filters out those stray strings (like "GLASS CANNON") automatically
+            historyData = historyData.filter(item => typeof item === 'object');
+        } catch (e) { console.error("History file issue, starting fresh."); }
+    }
+
+    // Check if we already posted today
+    if (historyData.length > 0 && historyData[0].generatedDate === todayFormatted) {
+        console.log("Word of the day already handled.");
+        return;
+    }
+
+    const usedWords = historyData.slice(0, 100).map(h => h.word);
+    
+    const prompt = `Provide a unique "Word of the Day" with a fun gaming/streamer example.
+    Keep the tone chill and friendly for a Twitch community.
+    JSON ONLY: {
+      "word": "THE WORD",
+      "phonetic": "phonetic-spelling",
+      "partOfSpeech": "noun/verb/adj",
+      "definition": "Simple definition",
+      "example": "A funny example using streamer lingo (chat, pogs, malting, etc)",
+      "sourceUrl": "Wikipedia URL",
+      "imageUrl": "Direct .jpg or .png link from Wikipedia"
+    }. 
+    DO NOT use these words: ${usedWords.join(", ")}`;
+    
+    let responseText;
+    try {
+        responseText = await generateWithRetry(CONFIG.PRIMARY_MODEL, prompt);
+    } catch (e) {
+        responseText = await generateWithRetry(CONFIG.BACKUP_MODEL, prompt);
     }
 
     try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${CONFIG.MODEL_NAME}:generateContent?key=${process.env.GEMINI_API_KEY}`;
+        const wordData = JSON.parse(responseText);
+        wordData.generatedDate = todayFormatted;
         
-        const payload = {
-            contents: [{
-                parts: [{
-                    text: `Generate a "Word of the Day" that is a unique or uncommon dictionary word. 
-                    
-                    CRITICAL RULES:
-                    1. MUST be a single word.
-                    2. Do NOT use: ${history.join(", ")}.
-                    3. Example sentence MUST be short, punchy, and have a streamer/gamer/degenerate vibe.
-                    4. Example sentence length limit: Max 15-20 words. Keep it brief.
-                    5. Adult language is allowed.
-
-                    Format:
-                    # [WORD]
-                    **[Pronunciation]** ([part of speech])
-                    ### Definition
-                    > [Definition]
-                    ### Example
-                    *[Short, funny gamer example]*`
-                }]
-            }]
-        };
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-        if (data.error) throw new Error(data.error.message);
-
-        const text = data.candidates[0].content.parts[0].text;
-        const newWord = text.split('\n')[0].replace('# ', '').trim();
-
-        await fetch(process.env.DISCORD_WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                embeds: [{ description: text, color: CONFIG.COLOR }]
-            })
-        });
-
-        history.push(newWord);
-        fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(history, null, 2));
-        fs.writeFileSync(CONFIG.CURRENT_FILE, newWord);
+        fs.writeFileSync(CONFIG.SAVE_FILE, JSON.stringify(wordData));
+        historyData.unshift(wordData);
+        fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(historyData.slice(0, 100), null, 2));
         
-        console.log(`Success! Posted: ${newWord}`);
-
+        await postToDiscord(wordData);
+        console.log(`Posted and saved: ${wordData.word}`);
     } catch (err) {
-        console.error("Failed:", err.message);
+        console.error("Critical Error:", err.message);
         process.exit(1);
     }
 }
