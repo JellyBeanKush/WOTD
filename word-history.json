@@ -1,12 +1,203 @@
 [
+   {
+    "word": "TERGIVERSATION",
+    "phonetic": "tur-jiv-er-SAY-shun",
+    "partOfSpeech": "noun",
+    "definition": "The act of evading a straightforward statement or shifting one's opinions; equivocation or desertion of a cause.",
+    "example": "The politician's constant tergiversation on the controversial policy left the voters confused about his true stance.",
+    "generatedDate": "Fri Feb 20 2026"
+  },
   {
-    "word": "Ephemeral",
-    "phonetic": "/ɪˈfɛmərəl/",
+    "word": "XERTZ",
+    "phonetic": "ZERTS",
+    "partOfSpeech": "verb",
+    "definition": "To gulp down something quickly and greedily.",
+    "example": "I need to xertz this energy drink before the boss fight starts!",
+    "generatedDate": "Fri Feb 20 2026"
+  },
+  {
+    "word": "PANDICULATION",
+    "phonetic": "pan-dik-yoo-LAY-shun",
+    "partOfSpeech": "noun",
+    "definition": "The act of stretching and yawning at the same time.",
+    "example": "After a twelve-hour subathon, a long pandiculation is exactly what I need.",
+    "generatedDate": "Thu Feb 19 2026"
+  },
+  {
+    "word": "GRAWLIX",
+    "phonetic": "GRAW-liks",
+    "partOfSpeech": "noun",
+    "definition": "A string of symbols used in comics to represent swear words.",
+    "example": "The streamer's rant was censored with a long string of grawlix.",
+    "generatedDate": "Thu Feb 19 2026"
+  },
+  {
+    "word": "BUMFUZZLE",
+    "phonetic": "bum-FUZ-ul",
+    "partOfSpeech": "verb",
+    "definition": "To confuse, perplex, or fluster.",
+    "example": "The player's chaotic movement was designed to bumfuzzle their opponent in the arena.",
+    "generatedDate": "Wed Feb 18 2026"
+  },
+  {
+    "word": "SHENANIGANS",
+    "phonetic": "shuh-NAN-ih-gunz",
+    "partOfSpeech": "noun",
+    "definition": "Secret or dishonest activity or maneuvering; silly or high-spirited behavior.",
+    "example": "The stream was full of hilarious shenanigans during the community game night.",
+    "generatedDate": "Tue Feb 17 2026"
+  },
+  {
+    "word": "ABSQUATULATE",
+    "phonetic": "ab-SKWOT-chuh-layt",
+    "partOfSpeech": "verb",
+    "definition": "To leave abruptly or secretively.",
+    "example": "The speedrunner had to absquatulate when the glitch ruined his perfect run.",
+    "generatedDate": "Mon Feb 16 2026"
+  },
+  {
+    "word": "APRICITY",
+    "phonetic": "uh-PRIS-ih-tee",
+    "partOfSpeech": "noun",
+    "definition": "The warmth of the sun in winter.",
+    "example": "The chat enjoyed a moment of apricity during the cozy winter stream.",
+    "generatedDate": "Sun Feb 15 2026"
+  },
+  {
+    "word": "SYZYGY",
+    "phonetic": "SIZ-uh-jee",
+    "partOfSpeech": "noun",
+    "definition": "The alignment of three celestial bodies in a straight line.",
+    "example": "The rare syzygy caused a spectacular solar eclipse during the livestream.",
+    "generatedDate": "Sat Feb 14 2026"
+  },
+  {
+    "word": "EQUANIMITY",
+    "phonetic": "ee-kwuh-NIM-ih-tee",
+    "partOfSpeech": "noun",
+    "definition": "Mental calmness and composure, especially in a difficult situation.",
+    "example": "He maintained his equanimity even after falling into the lava for the tenth time.",
+    "generatedDate": "Fri Feb 13 2026"
+  },
+  {
+    "word": "POGONOTROPHY",
+    "phonetic": "poh-guh-NOT-ruh-fee",
+    "partOfSpeech": "noun",
+    "definition": "The act of cultivating or growing a beard or mustache.",
+    "example": "After three months of pogonotrophy, his beard finally looked legendary.",
+    "generatedDate": "Thu Feb 12 2026"
+  },
+  {
+    "word": "SNOLLYGOSTER",
+    "phonetic": "SNOL-ee-gos-tur",
+    "partOfSpeech": "noun",
+    "definition": "A shrewd, unprincipled person, especially a politician who acts for personal gain.",
+    "example": "The chat called the greedy merchant in the game a total snollygoster.",
+    "generatedDate": "Wed Feb 11 2026"
+  },
+  {
+    "word": "LETHOLOGICA",
+    "phonetic": "leth-uh-LO-ji-kuh",
+    "partOfSpeech": "noun",
+    "definition": "The inability to remember a particular word or name.",
+    "example": "I had a moment of lethologica when trying to remember my best friend's dog's name.",
+    "generatedDate": "Tue Feb 10 2026"
+  },
+  {
+    "word": "LUDIC",
+    "phonetic": "LOO-dik",
     "partOfSpeech": "adjective",
-    "definition": "Lasting for a very short time.",
-    "example": "Chat, that 0-to-death combo was so **ephemeral**! Blink and you missed it, but the POGS in my brain will last forever. Don't worry, my malding about getting ganked right after was pretty ephemeral too... mostly.",
-    "sourceUrl": "https://en.wikipedia.org/wiki/Ephemerality",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Mayfly_Subimago.jpg",
-    "generatedDate": "Mon Feb 23 2026"
-  }
+    "definition": "Relating to or characterized by play or playfulness.",
+    "example": "The streamer's ludic personality kept the chat entertained for hours.",
+    "generatedDate": "Mon Feb 09 2026"
+  },
+  {
+    "word": "SKULDUGGERY",
+    "phonetic": "skul-DUG-uh-ree",
+    "partOfSpeech": "noun",
+    "definition": "Dishonest or underhanded behavior.",
+    "example": "There was some serious skulduggery happening in the tournament lobby tonight.",
+    "generatedDate": "Fri Feb 06 2026"
+  },
+  {
+    "word": "PERSPICACIOUS",
+    "phonetic": "per-spuh-KAY-shuss",
+    "partOfSpeech": "adjective",
+    "definition": "Having a ready insight into and understanding of things.",
+    "example": "The perspicacious viewer noticed the secret door before the streamer did.",
+    "generatedDate": "Thu Feb 05 2026"
+  },
+  {
+    "word": "QUOTIDIAN",
+    "phonetic": "kwo-TID-ee-un",
+    "partOfSpeech": "adjective",
+    "definition": "Occurring or recurring every day; commonplace.",
+    "example": "Even the quotidian task of inventory management looks epic with this soundtrack.",
+    "generatedDate": "Wed Feb 04 2026"
+  },
+  {
+    "word": "CACOPHONY",
+    "phonetic": "kuh-KOFF-uh-nee",
+    "partOfSpeech": "noun",
+    "definition": "A harsh, discordant mixture of sounds.",
+    "example": "The chat became a cacophony of alerts when the sub goal was reached.",
+    "generatedDate": "Tue Feb 03 2026"
+  },
+  {
+    "word": "SONDER",
+    "phonetic": "SAHN-der",
+    "partOfSpeech": "noun",
+    "definition": "The realization that each random passerby is living a life as complex as yours.",
+    "example": "Seeing all the chatters made him feel a sudden sense of sonder.",
+    "generatedDate": "Tue Feb 03 2026"
+  },
+  {
+    "word": "KERFUFFLE",
+    "phonetic": "ker-FUFF-ul",
+    "partOfSpeech": "noun",
+    "definition": "A commotion or fuss, especially one caused by conflicting views.",
+    "example": "There was a huge kerfuffle in the chat when the streamer lost the match.",
+    "generatedDate": "Mon Feb 02 2026"
+  },
+  {
+    "word": "PETRICHOR",
+    "phonetic": "PET-ri-kor",
+    "partOfSpeech": "noun",
+    "definition": "The pleasant, earthy smell that frequently accompanies the first rain after a dry spell.",
+    "example": "After the long summer heatwave, the petrichor filled the air during the storm.",
+    "generatedDate": "Mon Feb 02 2026"
+  },
+  {
+    "word": "MELLIFLUOUS",
+    "phonetic": "muh-LIF-loo-uhs",
+    "partOfSpeech": "adjective",
+    "definition": "Sweet or musical; pleasant to hear.",
+    "example": "The streamer's mellifluous voice made the long grind much more relaxing.",
+    "generatedDate": "Sun Feb 01 2026"
+  },
+  {
+    "word": "ELDRITCH",
+    "phonetic": "EL-drich",
+    "partOfSpeech": "adjective",
+    "definition": "Weird, ghostly, or uncanny, especially in a frightening or supernatural way.",
+    "example": "The streamer encountered an eldritch horror at the bottom of the haunted dungeon.",
+    "generatedDate": "Sat Jan 31 2026"
+  },
+  {
+    "word": "DEFENESTRATE",
+    "phonetic": "dee-FEN-uh-strayt",
+    "partOfSpeech": "verb",
+    "definition": "To throw a person or thing out of a window.",
+    "example": "The gamer wanted to defenestrate his controller after losing the final boss fight.",
+    "generatedDate": "Sat Jan 31 2026"
+  },
+  {
+    "word": "ULTRACREPIDARIAN",
+    "phonetic": "ul-truh-krep-ih-DAIR-ee-un",
+    "partOfSpeech": "adjective",
+    "definition": "Giving opinions on subjects that one knows nothing about.",
+    "example": "Don't be an ultracrepidarian in the comments about a game you never played.",
+    "generatedDate": "Fri Jan 30 2026"
+  },
+]
 ]
