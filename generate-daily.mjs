@@ -55,8 +55,7 @@ async function main() {
       "partOfSpeech": "noun/verb/adj",
       "definition": "Definition",
       "example": "Example",
-      "sourceUrl": "Wiktionary URL",
-      "imageUrl": "Direct .jpg/.png link"
+      "sourceUrl": "Wiktionary URL"
     }. DO NOT use: ${usedWords.join(", ")}`;
 
     const result = await model.generateContent(prompt);
