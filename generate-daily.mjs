@@ -24,8 +24,8 @@ async function postToDiscord(wordData) {
                          `**Definition**\n> ${wordData.definition}\n\n` +
                          `**Example**\n*${wordData.example}*\n\n` +
                          `[Learn More](${wordData.sourceUrl})`,
-            color: 0x9b59b6, 
-            image: { url: wordData.imageUrl }
+            color: 0x9b59b6
+            // Removed the image line from here
         }]
     };
     await fetch(CONFIG.DISCORD_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(discordPayload) });
