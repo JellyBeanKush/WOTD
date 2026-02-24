@@ -66,7 +66,7 @@ async function main() {
     // SAVE BOTH FILES
     fs.writeFileSync(CONFIG.SAVE_FILE, JSON.stringify(wordData, null, 2));
     historyData.unshift(wordData);
-    fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(history, null, 2));
+    fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(historyData, null, 2));
 
     await postToDiscord(wordData);
 }
