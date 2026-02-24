@@ -1,10 +1,10 @@
 {
-  "word": "Apophenia",
-  "phonetic": "ap-uh-FEE-nee-uh",
-  "partOfSpeech": "noun",
-  "definition": "The tendency to perceive meaningful connections between unrelated phenomena.",
-  "example": "The streamer's chat often experienced apophenia, seeing hidden meanings in minor visual glitches.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/apophenia",
-  "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/23/Connection_Icon.png",
-  "generatedDate": "Mon Feb 23 2026"
+  "word": "Liminal",
+  "phonetic": "LIM-ih-nul",
+  "partOfSpeech": "adjective",
+  "definition": "Occupying a position at, or on both sides of, a boundary or threshold; relating to a transitional or initial stage.",
+  "example": "The game's liminal spaces often created a sense of unease and anticipation among players.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/liminal",
+  "imageUrl": "https://images.pexels.com/photos/3225526/pexels-photo-3225526.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+  "generatedDate": "Tue Feb 24 2026"
 }
