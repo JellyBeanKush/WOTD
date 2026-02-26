@@ -1,9 +1,9 @@
 {
-  "word": "Quidnunc",
-  "phonetic": "KWID-nuhnk",
+  "word": "Lagniappe",
+  "phonetic": "LAN-YAP",
   "partOfSpeech": "noun",
-  "definition": "An inquisitive and often gossipy person; a busybody.",
-  "example": "Chat's resident quidnunc always had questions about the streamer's gaming setup.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/quidnunc",
-  "generatedDate": "Wed Feb 25 2026"
+  "definition": "An unexpected gift or bonus; a gratuity.",
+  "example": "The streamer’s loyal viewers received a small *lagniappe* of exclusive emotes.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/lagniappe",
+  "generatedDate": "Thu Feb 26 2026"
 }
