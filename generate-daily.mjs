@@ -1,72 +1,57 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import fetch from 'node-fetch';
-import fs from 'fs';
 
-const CONFIG = {
-    GEMINI_KEY: process.env.GEMINI_API_KEY,
-    DISCORD_URL: process.env.DISCORD_WEBHOOK_URL,
-    SAVE_FILE: 'current-word.txt',        
-    HISTORY_FILE: 'word-history.json',    
-    PRIMARY_MODEL: "gemini-2.5-flash", 
-    BACKUP_MODEL: "gemini-1.5-flash-latest" 
-};
+// 1. Initialize with your API Key from environment variables
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const todayFormatted = new Date().toDateString(); 
-const options = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/Los_Angeles' };
-const displayDate = new Date().toLocaleDateString('en-US', options);
+// 2. Define your model priority list
+const modelPriority = [
+  "gemini-2.5-flash",
+  "gemini-2.0-flash",
+  "gemini-1.5-flash"
+];
 
-async function postToDiscord(wordData) {
-    const discordPayload = {
-        embeds: [{
-            title: `Word of the Day - ${displayDate}`,
-            description: `# ${wordData.word.toUpperCase()}\n` +
-                         `*[${wordData.phonetic}] (${wordData.partOfSpeech})*\n\n` +
-                         `**Definition**\n> ${wordData.definition}\n\n` +
-                         `**Example**\n*${wordData.example}*\n\n` +
-                         `[Learn More](${wordData.sourceUrl})`,
-            color: 0x9b59b6
-            // Removed the image line from here
-        }]
-    };
-    await fetch(CONFIG.DISCORD_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(discordPayload) });
+async function generateWithFallback(prompt) {
+  for (const modelName of modelPriority) {
+    try {
+      console.log(`Attempting generation with: ${modelName}...`);
+      
+      const model = genAI.getGenerativeModel({ model: modelName });
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      
+      console.log(`Success using ${modelName}!`);
+      return response.text();
+
+    } catch (error) {
+      // Check if it's a quota error (429)
+      if (error.status === 429 || error.message.includes("429")) {
+        console.warn(`Quota exceeded for ${modelName}. Trying next model...`);
+        // Optional: wait 2 seconds before trying the next model
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        continue; 
+      }
+      
+      // If it's a different error (auth, syntax, etc.), stop and report it
+      console.error(`Critical error with ${modelName}:`, error.message);
+      throw error;
+    }
+  }
+  
+  throw new Error("All models failed due to quota limits.");
 }
 
 async function main() {
-    let historyData = [];
-    if (fs.existsSync(CONFIG.HISTORY_FILE)) {
-        try { 
-            const content = fs.readFileSync(CONFIG.HISTORY_FILE, 'utf8');
-            historyData = JSON.parse(content).filter(item => typeof item === 'object');
-        } catch (e) { historyData = []; }
-    }
+  const prompt = "Generate a 'Word of the Day' with a definition and an example sentence.";
 
-    if (historyData.length > 0 && historyData[0].generatedDate === todayFormatted) return;
-
-    const usedWords = historyData.slice(0, 100).map(h => h.word);
-    const genAI = new GoogleGenerativeAI(CONFIG.GEMINI_KEY);
-    const model = genAI.getGenerativeModel({ model: CONFIG.PRIMARY_MODEL });
-
-    const prompt = `Provide a unique "Word of the Day".
-    Dictionary tone. PHONETIC must be spelled-out with CAPS for emphasis (e.g. "suh-NAN-ih-gunz").
-    EXAMPLE: Grounded, non-cringe context. Use variety: "The streamer...", "The game's lore...", "Chat reacted to...", etc. Max 15 words. No "poggers/pogs".
-    JSON ONLY: {
-      "word": "WORD",
-      "phonetic": "PHONETIC",
-      "partOfSpeech": "noun/verb/adj",
-      "definition": "Definition",
-      "example": "Example",
-      "sourceUrl": "Wiktionary URL"
-    }. DO NOT use: ${usedWords.join(", ")}`;
-
-    const result = await model.generateContent(prompt);
-    const wordData = JSON.parse(result.response.text().replace(/```json|```/g, "").trim());
-    wordData.generatedDate = todayFormatted;
-
-    // SAVE BOTH FILES
-    fs.writeFileSync(CONFIG.SAVE_FILE, JSON.stringify(wordData, null, 2));
-    historyData.unshift(wordData);
-    fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(historyData, null, 2));
-
-    await postToDiscord(wordData);
+  try {
+    const content = await generateWithFallback(prompt);
+    console.log("--- Result ---");
+    console.log(content);
+    // Add your logic here to save the file or post to Twitch/Discord
+  } catch (err) {
+    console.error("Bot failed to run:", err.message);
+    process.exit(1);
+  }
 }
+
 main();
