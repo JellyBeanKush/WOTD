@@ -34,7 +34,6 @@ async function generateWithFallback(prompt) {
 }
 
 async function main() {
-  // --- 1. GET HISTORY TO PREVENT REPEATS ---
   let history = [];
   if (fs.existsSync("word-history.json")) {
       try {
@@ -48,14 +47,14 @@ async function main() {
   
   CRITICAL CONSTRAINTS:
   1. DO NOT USE ANY OF THESE WORDS: ${usedWords}
-  2. For 'pronunciation', use simple capitalized phonetic spelling like [LAN-YAP]. Do NOT use double brackets.
+  2. For 'pronunciation', use simple capitalized phonetic spelling like KOH-moh-REH-bee. Do NOT use any brackets [].
   3. The 'example' must relate to Twitch/gaming and MUST be 20 words or less.`;
 
   try {
     const data = await generateWithFallback(prompt);
     const today = new Date();
     
-    // FORMAT: Month Date, Year (e.g., February 28, 2026)
+    // FORMAT: February 28, 2026
     const dateOptions = { month: 'long', day: 'numeric', year: 'numeric' };
     const dateString = today.toLocaleDateString('en-US', dateOptions);
     
@@ -69,11 +68,12 @@ async function main() {
       generatedDate: dateString
     };
 
-    // --- 2. FORMAT DISCORD EMBED ---
+    // --- FORMAT DISCORD EMBED ---
+    // Style: PHONETIC / *partOfSpeech* (no brackets)
     const discordPayload = {
       embeds: [{
         title: `Word of the Day - ${dateString}`,
-        description: `# ${newEntry.word.toUpperCase()}\n*[${newEntry.phonetic}] (${newEntry.partOfSpeech})*`,
+        description: `# ${newEntry.word.toUpperCase()}\n${newEntry.phonetic} / *${newEntry.partOfSpeech}*`,
         color: 7419530, 
         fields: [
           { name: "Definition", value: `> ${newEntry.definition}` },
@@ -83,21 +83,21 @@ async function main() {
       }]
     };
 
-    // --- 3. SAVE HISTORY & CURRENT WORD ---
+    // --- SAVE HISTORY & CURRENT WORD ---
     history = history.filter(item => item.word && !item.timestamp);
     history.unshift(newEntry);
     
     fs.writeFileSync("word-history.json", JSON.stringify(history, null, 2));
     fs.writeFileSync("current-word.txt", JSON.stringify(newEntry, null, 2));
 
-    // --- 4. POST TO DISCORD ---
+    // --- POST TO DISCORD ---
     if (process.env.DISCORD_WEBHOOK_URL) {
       await fetch(process.env.DISCORD_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(discordPayload)
       });
-      console.log("🚀 Posted and updated files with clean date format!");
+      console.log("🚀 Posted with italicized slash-style formatting!");
     }
 
   } catch (err) {
