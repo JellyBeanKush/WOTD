@@ -34,22 +34,31 @@ async function generateWithFallback(prompt) {
 }
 
 async function main() {
+  // --- 1. GET HISTORY TO PREVENT REPEATS ---
+  let history = [];
+  if (fs.existsSync("word-history.json")) {
+      try {
+        history = JSON.parse(fs.readFileSync("word-history.json", "utf8"));
+      } catch (e) { history = []; }
+  }
+  const usedWords = history.map(item => item.word).join(", ");
+
   const prompt = `Generate a 'Word of the Day' as a JSON object with these keys: 
   word, pronunciation, partOfSpeech, definition, example, sourceUrl. 
   
-  IMPORTANT: 
-  1. For 'pronunciation', use simple capitalized phonetic spelling like [LAN-YAP] or [KWID-nuhnk]. Do not use IPA symbols.
-  2. The 'example' should mention a streamer, chat, or gaming context.`;
+  CRITICAL CONSTRAINTS:
+  1. DO NOT USE ANY OF THESE WORDS: ${usedWords}
+  2. Use simple capitalized phonetic spelling for 'pronunciation' like [LAN-YAP].
+  3. The 'example' must relate to Twitch streaming or gaming.`;
 
   try {
     const data = await generateWithFallback(prompt);
     const today = new Date();
     const dateString = today.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: '2-digit', year: 'numeric' }).replace(/,/g, '');
     
-    // Structure the data exactly for your JSON schema
     const newEntry = {
       word: data.word,
-      phonetic: data.pronunciation, // Mapping 'pronunciation' to your 'phonetic' key
+      phonetic: data.pronunciation,
       partOfSpeech: data.partOfSpeech,
       definition: data.definition,
       example: data.example,
@@ -57,39 +66,35 @@ async function main() {
       generatedDate: dateString
     };
 
-    // --- 1. FORMAT DISCORD POST ---
-    const discordMessage = `**Word of the Day - ${dateString}**\n\n` +
-      `# ${newEntry.word.toUpperCase()}\n\n` +
-      `*[${newEntry.phonetic}] (${newEntry.partOfSpeech})*\n\n` +
-      `**Definition**\n` +
-      `> ${newEntry.definition}\n\n` +
-      `**Example**\n` +
-      `*${newEntry.example}*\n\n` +
-      `[Learn More](${newEntry.sourceUrl})`;
+    // --- 2. FORMAT DISCORD EMBED ---
+    const discordPayload = {
+      embeds: [{
+        title: `Word of the Day - ${dateString}`,
+        description: `# ${newEntry.word.toUpperCase()}\n*[${newEntry.phonetic}] (${newEntry.partOfSpeech})*`,
+        color: 7419530, // Purple color matching your Feb 26 screenshot
+        fields: [
+          { name: "Definition", value: `> ${newEntry.definition}` },
+          { name: "Example", value: `*${newEntry.example}*` },
+          { name: " ", value: `[Learn More](${newEntry.sourceUrl})` }
+        ]
+      }]
+    };
 
-    // --- 2. SAVE HISTORY (Newest at the top) ---
-    let history = [];
-    if (fs.existsSync("word-history.json")) {
-        history = JSON.parse(fs.readFileSync("word-history.json", "utf8"));
-    }
-    
-    // Filter out any previous malformed entries (like the one with "timestamp")
+    // --- 3. SAVE HISTORY (Newest at top) ---
     history = history.filter(item => item.word && !item.timestamp);
-    
-    // Add to the START of the list
     history.unshift(newEntry);
     
     fs.writeFileSync("word-history.json", JSON.stringify(history, null, 2));
-    fs.writeFileSync("current-word.txt", discordMessage);
+    fs.writeFileSync("current-word.txt", JSON.stringify(discordPayload, null, 2));
 
-    // --- 3. POST TO DISCORD ---
+    // --- 4. POST TO DISCORD ---
     if (process.env.DISCORD_WEBHOOK_URL) {
-      const response = await fetch(process.env.DISCORD_WEBHOOK_URL, {
+      await fetch(process.env.DISCORD_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: discordMessage })
+        body: JSON.stringify(discordPayload)
       });
-      if (response.ok) console.log("🚀 Posted and saved successfully!");
+      console.log("🚀 Posted Embed and updated history!");
     }
 
   } catch (err) {
