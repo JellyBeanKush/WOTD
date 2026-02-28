@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import fs from "fs";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -30,26 +31,63 @@ async function generateWithFallback(prompt) {
 }
 
 async function main() {
-  const prompt = "Generate a 'Word of the Day' with a definition and an example sentence.";
+  const historyPath = "word-history.json";
+  const currentPath = "current-word.txt";
+  const today = new Date().toISOString().split('T')[0]; // Gets YYYY-MM-DD
+  
+  let content = "";
 
-  try {
-    const content = await generateWithFallback(prompt);
-    console.log("\n--- WORD OF THE DAY ---\n", content);
+  // CHECK: Did we already generate a word today?
+  if (fs.existsSync(currentPath)) {
+    const stats = fs.statSync(currentPath);
+    const lastUpdate = stats.mtime.toISOString().split('T')[0];
 
-    // --- THIS IS THE PART THAT WAS MISSING ---
-    if (process.env.DISCORD_WEBHOOK_URL) {
-      await fetch(process.env.DISCORD_WEBHOOK_URL, {
+    if (lastUpdate === today) {
+      console.log("📅 Word already generated for today. Re-using existing content...");
+      content = fs.readFileSync(currentPath, "utf8");
+    }
+  }
+
+  // If no word exists for today, generate one
+  if (!content) {
+    const prompt = "Generate a 'Word of the Day' with a definition and an example sentence.";
+    try {
+      content = await generateWithFallback(prompt);
+      console.log("\n--- NEW WORD GENERATED ---\n", content);
+      
+      // Save to files for history
+      fs.writeFileSync(currentPath, content);
+      
+      let history = [];
+      if (fs.existsSync(historyPath)) {
+        history = JSON.parse(fs.readFileSync(historyPath, "utf8"));
+      }
+      const wordOnly = content.split('\n')[0].replace(/[*#]/g, '').trim();
+      history.push({ date: today, word: wordOnly });
+      fs.writeFileSync(historyPath, JSON.stringify(history, null, 2));
+
+    } catch (err) {
+      console.error("\n💥 Bot crashed:", err.message);
+      process.exit(1);
+    }
+  }
+
+  // POST TO DISCORD
+  if (process.env.DISCORD_WEBHOOK_URL && content) {
+    try {
+      const response = await fetch(process.env.DISCORD_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: content })
       });
-      console.log("🚀 Sent to Discord!");
+      if (response.ok) {
+        console.log("🚀 Posted to Discord successfully!");
+      } else {
+        console.error("❌ Discord post failed:", response.statusText);
+      }
+    } catch (postError) {
+      console.error("❌ Error posting to Discord:", postError.message);
     }
-    // -----------------------------------------
-
-  } catch (err) {
-    console.error("\n💥 Bot crashed:", err.message);
-    process.exit(1);
   }
 }
 
