@@ -1,13 +1,9 @@
-**Word of the Day - Sat Feb 28 2026**
-
-# QUIDNUNC
-
-*[[KWID-nuhnk]] (noun)*
-
-**Definition**
-> A person who is eager to know the latest news and gossip; a busybody.
-
-**Example**
-*The streamer's chat was full of quidnuncs desperately trying to leak the upcoming patch notes before the official reveal.*
-
-[Learn More](https://www.merriam-webster.com/dictionary/quidnunc)
+{
+  "word": "Fastidious",
+  "phonetic": "[fas-TID-ee-uhs]",
+  "partOfSpeech": "adjective",
+  "definition": "Showing or demanding excessive delicacy or care; very attentive to and concerned about accuracy and detail.",
+  "example": "The speedrunner was fastidious about his frame-perfect inputs, knowing that even a millisecond of error would ruin the world record attempt.",
+  "sourceUrl": "https://www.merriam-webster.com/dictionary/fastidious",
+  "generatedDate": "Sat Feb 28 2026"
+}
