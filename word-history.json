@@ -1,5 +1,14 @@
 [
   {
+    "word": "Quidnunc",
+    "phonetic": "[KWID-nuhnk]",
+    "partOfSpeech": "noun",
+    "definition": "A person who is eager to know the latest news and gossip; a busybody.",
+    "example": "The streamer's chat was full of quidnuncs desperately trying to leak the upcoming patch notes before the official reveal.",
+    "sourceUrl": "https://www.merriam-webster.com/dictionary/quidnunc",
+    "generatedDate": "Sat Feb 28 2026"
+  },
+  {
     "word": "Lagniappe",
     "phonetic": "LAN-YAP",
     "partOfSpeech": "noun",
@@ -56,9 +65,5 @@
     "sourceUrl": "https://en.wikipedia.org/wiki/Cacophony",
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Sound_Waves_2.jpg",
     "generatedDate": "Mon Feb 21 2026"
-  },
-  {
-    "timestamp": "2026-02-28T17:10:27.810Z",
-    "content": "Word of the Day: **Mellifluous**\n\n**Definition:** (Adjective) (Of a voice or words) sweet or musical; pleasant to hear.\n\n**Example:** \"The narrator’s **mellifluous** voice was so soothing that it kept the audience captivated for the entire three-hour reading.\""
   }
 ]
