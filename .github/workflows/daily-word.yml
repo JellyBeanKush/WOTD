@@ -2,7 +2,7 @@ name: Generate Daily Word
 
 on:
   schedule:
-    - cron: '17 12 * * *' # Runs at 12:17 UTC to avoid API collisions
+    - cron: '17 12 * * *' # Offset to avoid account-level quota collisions
   workflow_dispatch: 
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Action Bot"
           git config --global user.email "actions@github.com"
-          # Touch files to ensure they exist if it's the first run
+          # Ensure files exist before adding
           touch current-word.txt word-history.json
           git add current-word.txt word-history.json
           git commit -m "Update Daily Word and History [skip ci]" || echo "No changes to commit"
