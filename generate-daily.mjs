@@ -48,18 +48,20 @@ async function main() {
   
   CRITICAL CONSTRAINTS:
   1. DO NOT USE ANY OF THESE WORDS: ${usedWords}
-  2. Use simple capitalized phonetic spelling for 'pronunciation' like [LAN-YAP].
-  3. The 'example' must relate to Twitch streaming or gaming.`;
+  2. For 'pronunciation', use simple capitalized phonetic spelling like [LAN-YAP]. Do NOT use double brackets.
+  3. The 'example' must relate to Twitch/gaming and MUST be 20 words or less.`;
 
   try {
     const data = await generateWithFallback(prompt);
     const today = new Date();
-    const dateString = today.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: '2-digit', year: 'numeric' }).replace(/,/g, '');
     
-    // This is the standardized object format
+    // FORMAT: Month Date, Year (e.g., February 28, 2026)
+    const dateOptions = { month: 'long', day: 'numeric', year: 'numeric' };
+    const dateString = today.toLocaleDateString('en-US', dateOptions);
+    
     const newEntry = {
       word: data.word,
-      phonetic: data.pronunciation,
+      phonetic: data.pronunciation.replace(/[\[\]]/g, ''), 
       partOfSpeech: data.partOfSpeech,
       definition: data.definition,
       example: data.example,
@@ -82,16 +84,10 @@ async function main() {
     };
 
     // --- 3. SAVE HISTORY & CURRENT WORD ---
-    // Clean up any old malformed entries
     history = history.filter(item => item.word && !item.timestamp);
-    
-    // Add to the START of the history list
     history.unshift(newEntry);
     
-    // Save history file (Array)
     fs.writeFileSync("word-history.json", JSON.stringify(history, null, 2));
-    
-    // Save current word file (Single Object - EXACT same format as JSON entries)
     fs.writeFileSync("current-word.txt", JSON.stringify(newEntry, null, 2));
 
     // --- 4. POST TO DISCORD ---
@@ -101,7 +97,7 @@ async function main() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(discordPayload)
       });
-      console.log("🚀 Posted Embed, saved current-word.txt (JSON format), and updated history!");
+      console.log("🚀 Posted and updated files with clean date format!");
     }
 
   } catch (err) {
