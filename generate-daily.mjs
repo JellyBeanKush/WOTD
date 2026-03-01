@@ -48,7 +48,7 @@ async function main() {
   CRITICAL CONSTRAINTS:
   1. DO NOT USE ANY OF THESE WORDS: ${usedWords}
   2. For 'pronunciation', use simple capitalized phonetic spelling like KOH-moh-REH-bee. Do NOT use any brackets [].
-  3. The 'example' must relate to Twitch/gaming and MUST be 20 words or less.`;
+  3. EXAMPLE SENTENCE: Feature HoneyBear and JellyBean (gay couple/streamers). Use their names. Contextual/natural.
 
   try {
     const data = await generateWithFallback(prompt);
