@@ -1,9 +1,9 @@
 {
-  "word": "Fastidious",
-  "phonetic": "[fas-TID-ee-uhs]",
+  "word": "Mellifluous",
+  "phonetic": "MUH-LIF-LOO-UHS",
   "partOfSpeech": "adjective",
-  "definition": "Showing or demanding excessive delicacy or care; very attentive to and concerned about accuracy and detail.",
-  "example": "The speedrunner was fastidious about his frame-perfect inputs, knowing that even a millisecond of error would ruin the world record attempt.",
-  "sourceUrl": "https://www.merriam-webster.com/dictionary/fastidious",
-  "generatedDate": "Sat Feb 28 2026"
+  "definition": "Having a smooth, rich flow; sweet or musical; pleasant to hear.",
+  "example": "The streamer's mellifluous voice kept the chat calm during the most intense boss fights.",
+  "sourceUrl": "https://www.merriam-webster.com/dictionary/mellifluous",
+  "generatedDate": "March 1, 2026"
 }
