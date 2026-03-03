@@ -3,9 +3,11 @@ import fs from "fs";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+// Updated Priority: 2.5 Flash is now the primary model
 const modelPriority = [
-  "gemini-1.5-flash", 
+  "gemini-2.5-flash",
   "gemini-2.0-flash-lite",
+  "gemini-1.5-flash",
   "gemini-1.5-pro"
 ];
 
@@ -23,13 +25,21 @@ async function generateWithFallback(prompt) {
         const responseText = result.response.text();
         return JSON.parse(responseText);
       } catch (error) {
+        // Detailed logging to find out WHY it's failing in GitHub Actions
+        console.warn(`⚠️ ${modelName} (${version}) failed: ${error.message}`);
+        
         const status = error.status || (error.message.includes("429") ? 429 : error.message.includes("404") ? 404 : null);
-        if (status === 429) break; 
-        if (status === 404) continue;
+        if (status === 429) {
+          console.error("🛑 Rate limited on this model. Moving to next...");
+          break; 
+        }
+        if (error.message.includes("403")) {
+          console.error("🚫 Permission Denied. Check if your API Key is valid or if the model is restricted.");
+        }
       }
     }
   }
-  throw new Error("TOTAL FAILURE: All models exhausted or API key invalid.");
+  throw new Error("TOTAL FAILURE: All models exhausted. Check logs for specific error messages.");
 }
 
 async function main() {
@@ -37,12 +47,9 @@ async function main() {
   if (fs.existsSync("word-history.json")) {
       try {
         history = JSON.parse(fs.readFileSync("word-history.json", "utf8"));
-      } catch (e) { 
-        history = []; 
-      }
+      } catch (e) { history = []; }
   }
   
-  // Clean up history to ensure we only have valid words for the exclusion list
   const usedWords = history.map(item => item.word).filter(Boolean).join(", ");
 
   const prompt = `Generate a 'Word of the Day' as a JSON object with these keys: 
@@ -56,8 +63,6 @@ async function main() {
   try {
     const data = await generateWithFallback(prompt);
     const today = new Date();
-    
-    // FORMAT: March 2, 2026
     const dateOptions = { month: 'long', day: 'numeric', year: 'numeric' };
     const dateString = today.toLocaleDateString('en-US', dateOptions);
     
@@ -71,7 +76,6 @@ async function main() {
       generatedDate: dateString
     };
 
-    // --- FORMAT DISCORD EMBED ---
     const discordPayload = {
       embeds: [{
         title: `Word of the Day - ${dateString}`,
@@ -85,31 +89,20 @@ async function main() {
       }]
     };
 
-    // --- SAVE HISTORY & CURRENT WORD ---
-    // Remove any malformed entries and add the new one to the top
     history = history.filter(item => item && item.word);
     history.unshift(newEntry);
     
     fs.writeFileSync("word-history.json", JSON.stringify(history, null, 2));
     fs.writeFileSync("current-word.txt", JSON.stringify(newEntry, null, 2));
 
-    // --- POST TO DISCORD ---
     if (process.env.DISCORD_WEBHOOK_URL) {
-      const response = await fetch(process.env.DISCORD_WEBHOOK_URL, {
+      await fetch(process.env.DISCORD_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(discordPayload)
       });
-      
-      if (!response.ok) {
-        throw new Error(`Discord Webhook failed: ${response.statusText}`);
-      }
-      
-      console.log("🚀 Posted with italicized slash-style formatting!");
-    } else {
-      console.warn("⚠️ No Discord Webhook URL found in environment variables.");
+      console.log("🚀 Posted successfully!");
     }
-
   } catch (err) {
     console.error("\n💥 Bot crashed:", err.message);
     process.exit(1);
