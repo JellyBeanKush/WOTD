@@ -1,9 +1,9 @@
 {
-  "word": "Mellifluous",
-  "phonetic": "MUH-LIF-LOO-UHS",
-  "partOfSpeech": "adjective",
-  "definition": "Having a smooth, rich flow; sweet or musical; pleasant to hear.",
-  "example": "The streamer's mellifluous voice kept the chat calm during the most intense boss fights.",
-  "sourceUrl": "https://www.merriam-webster.com/dictionary/mellifluous",
-  "generatedDate": "March 1, 2026"
+  "word": "Serendipity",
+  "phonetic": "SEH-ruhn-DIH-pih-tee",
+  "partOfSpeech": "noun",
+  "definition": "The occurrence and development of events by chance in a happy or beneficial way.",
+  "example": "It was pure serendipity when the bearded streamer, known for his chill gaming sessions, met his fiancé, a talented artist who now designs all their stream overlays, at a fan convention.",
+  "sourceUrl": "https://www.merriam-webster.com/dictionary/serendipity",
+  "generatedDate": "March 3, 2026"
 }
