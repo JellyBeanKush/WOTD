@@ -1,15 +1,14 @@
 {
   "name": "wotd-bot",
   "version": "1.0.0",
-  "description": "Daily Word of the Day bot for HoneyBearSquish Discord",
+  "description": "Daily Word of the Day bot for Twitch Discord",
   "main": "generate-daily.mjs",
   "type": "module",
   "scripts": {
     "start": "node generate-daily.mjs"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.21.0",
-    "node-fetch": "^3.3.2"
+    "@google/generative-ai": "^0.21.0"
   },
   "engines": {
     "node": ">=20.0.0"
