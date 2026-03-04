@@ -58,8 +58,9 @@ async function main() {
   CRITICAL CONSTRAINTS:
   1. DO NOT USE ANY OF THESE WORDS: ${usedWords}
   2. For 'pronunciation', use simple capitalized phonetic spelling like KOH-moh-REH-bee. Do NOT use any brackets [].
- EXAMPLE SENTENCE: Feature HoneyBear and JellyBean (gay couple/streamers). Use their names. Contextual/natural.
- CONSTRAINTS: Max 15 words. No "poggers". No Cringe. 
+  EXAMPLE SENTENCE: Feature a bearded streamer and his fiancé (gay couple/streamers). Use descriptions of them rather than names. Contextual/natural.
+  CONSTRAINTS: Max 15 words. No "poggers". No Cringe.`;
+
   try {
     const data = await generateWithFallback(prompt);
     const today = new Date();
