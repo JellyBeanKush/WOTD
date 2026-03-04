@@ -1,9 +1,9 @@
 {
-  "word": "Serendipity",
-  "phonetic": "SEH-ruhn-DIH-pih-tee",
-  "partOfSpeech": "noun",
-  "definition": "The occurrence and development of events by chance in a happy or beneficial way.",
-  "example": "It was pure serendipity when the bearded streamer, known for his chill gaming sessions, met his fiancé, a talented artist who now designs all their stream overlays, at a fan convention.",
-  "sourceUrl": "https://www.merriam-webster.com/dictionary/serendipity",
-  "generatedDate": "March 3, 2026"
+  "word": "Insipid",
+  "phonetic": "IN-sih-pid",
+  "partOfSpeech": "Adjective",
+  "definition": "Lacking flavor, spirit, or interest; dull.",
+  "example": "The bearded streamer's fiancé found their new game surprisingly insipid, despite the hype.",
+  "sourceUrl": "https://www.merriam-webster.com/dictionary/insipid",
+  "generatedDate": "March 4, 2026"
 }
