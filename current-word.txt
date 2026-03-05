@@ -1,9 +1,9 @@
 {
-  "word": "Ephemeral",
-  "phonetic": "Eh-FEM-uh-rul",
+  "word": "Ebullient",
+  "phonetic": "ih-BOOL-yuhnt",
   "partOfSpeech": "adjective",
-  "definition": "Lasting for a very short time.",
-  "example": "HoneyBear and JellyBean reflected on the ephemeral nature of live stream fame.",
-  "sourceUrl": "https://www.merriam-webster.com/dictionary/ephemeral",
-  "generatedDate": "March 4, 2026"
+  "definition": "Cheerful and full of energy; exuberant.",
+  "example": "HoneyBear and JellyBean were ebullient, celebrating their streaming milestone with fans.",
+  "sourceUrl": "https://www.merriam-webster.com/dictionary/ebullient",
+  "generatedDate": "March 5, 2026"
 }
