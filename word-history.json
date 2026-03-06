@@ -1,5 +1,13 @@
 [
   {
+    "word": "Petrichor",
+    "partOfSpeech": "noun",
+    "pronunciation": "PE-truh-kor",
+    "definition": "The pleasant, earthy smell that frequently accompanies the first rain after a long period of warm, dry weather.",
+    "example": "HoneyBear and JellyBean sat on the porch, enjoying the soothing petrichor rising from the soil after the summer storm.",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Petrichor"
+  },
+  {
     "word": "Ebullient",
     "phonetic": "ih-BOOL-yuhnt",
     "partOfSpeech": "adjective",
