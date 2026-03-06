@@ -1,11 +1,15 @@
 import { GoogleGenAI } from "@google/genai";
 import fs from 'fs';
 
+/**
+ * CONFIGURATION
+ * Using your original file names: current-word.txt and word-history.json
+ */
 const CONFIG = {
     GEMINI_KEY: process.env.GEMINI_API_KEY,
     DISCORD_URL: process.env.DISCORD_WEBHOOK_URL,
-    SAVE_FILE: 'current_wotd.txt',
-    HISTORY_FILE: 'wotd_history.json',
+    SAVE_FILE: 'current-word.txt',
+    HISTORY_FILE: 'word-history.json',
     MODELS: ["gemini-3.1-flash-lite-preview", "gemini-3-flash-preview", "gemini-1.5-flash"]
 };
 
@@ -36,10 +40,9 @@ async function postToDiscord(wordData) {
     const discordPayload = {
         embeds: [{
             title: `Word of the Day — ${displayDate}`,
-            // # makes the word HUGE. 
-            // Pronunciation now uses CAPS for emphasis.
-            description: `# ${wordData.word}\n### *${wordData.pronunciation}*\n\n**Definition:** ${wordData.definition}\n\n**Example:** *"${wordData.example}"*\n\n[Learn more](${wordData.sourceUrl})`,
-            color: 0x3498db, // Blue
+            // # makes the word massive; Pronunciation uses CAPS emphasis
+            description: `# ${wordData.word.toUpperCase()}\n\n*${wordData.pronunciation}* / ***${wordData.partOfSpeech}***\n\n**Definition**\n> ${wordData.definition}\n\n**Example**\n*${wordData.example}*\n\n[Learn More](${wordData.sourceUrl})`,
+            color: 0x9b59b6, // Purple to match EBULLIENT style
             thumbnail: wikiThumbnail ? { url: wikiThumbnail } : null
         }]
     };
@@ -64,16 +67,17 @@ async function main() {
 
     const usedWords = historyData.slice(0, 100).map(h => h.word);
     
-    // UPDATED PROMPT: Specifically requests the gay streamer couple context and custom pronunciation
+    // Strict prompt for content length, streamers, and American sound-out pronunciation
     const prompt = `Provide an interesting Word of the Day. 
     Return ONLY JSON: {
         "word": "The Word", 
+        "partOfSpeech": "noun/verb/adjective",
         "pronunciation": "American sound-out style with CAPS for emphasis (e.g. ih-BULL-yunt)", 
-        "definition": "One short, punchy sentence only", 
-        "example": "A short sentence using the word, featuring the gay streamer couple HoneyBear and JellyBean", 
+        "definition": "One very short sentence", 
+        "example": "One short sentence using the word featuring the gay streamer couple, HoneyBear and JellyBean", 
         "sourceUrl": "Wikipedia URL"
     }. 
-    Keep all text extremely concise. Avoid these words: ${usedWords.join(", ")}`;
+    Avoid: ${usedWords.join(", ")}`;
 
     const client = new GoogleGenAI({ apiKey: CONFIG.GEMINI_KEY });
 
