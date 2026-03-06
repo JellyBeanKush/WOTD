@@ -12,20 +12,15 @@ const CONFIG = {
 const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/Los_Angeles' };
 const displayDate = new Date().toLocaleDateString('en-US', dateOptions);
 
-/**
- * Wikipedia Thumbnail Fetcher (Using Native Node 20 fetch)
- */
 async function getWikipediaThumbnail(wikiUrl) {
     try {
         if (!wikiUrl || !wikiUrl.includes('wikipedia.org')) return null;
         const title = wikiUrl.split('/').pop();
         const apiUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${title}&prop=pageimages&format=json&pithumbsize=400&origin=*`;
-        
-        const res = await fetch(apiUrl); // Native fetch
+        const res = await fetch(apiUrl);
         const data = await res.json();
         const pages = data.query.pages;
         const pageId = Object.keys(pages)[0];
-        
         if (pageId === "-1") return null;
         return pages[pageId].thumbnail ? pages[pageId].thumbnail.source : null;
     } catch (err) {
@@ -34,9 +29,6 @@ async function getWikipediaThumbnail(wikiUrl) {
     }
 }
 
-/**
- * Discord Webhook Poster
- */
 async function postToDiscord(wordData) {
     console.log(`[Discord] Posting Word: ${wordData.word}`);
     const wikiThumbnail = await getWikipediaThumbnail(wordData.sourceUrl);
@@ -44,7 +36,9 @@ async function postToDiscord(wordData) {
     const discordPayload = {
         embeds: [{
             title: `Word of the Day — ${displayDate}`,
-            description: `### **${wordData.word}** (${wordData.partOfSpeech})\n*${wordData.phonetic}*\n\n**Definition:** ${wordData.definition}\n\n**Example:** *"${wordData.example}"*\n\n[Learn more](${wordData.sourceUrl})`,
+            // # makes the word HUGE. 
+            // Pronunciation now uses CAPS for emphasis.
+            description: `# ${wordData.word}\n### *${wordData.pronunciation}*\n\n**Definition:** ${wordData.definition}\n\n**Example:** *"${wordData.example}"*\n\n[Learn more](${wordData.sourceUrl})`,
             color: 0x3498db, // Blue
             thumbnail: wikiThumbnail ? { url: wikiThumbnail } : null
         }]
@@ -59,9 +53,6 @@ async function postToDiscord(wordData) {
     if (!res.ok) throw new Error(`Discord Failed: ${await res.text()}`);
 }
 
-/**
- * Main Logic
- */
 async function main() {
     console.log("--- Starting WOTD Generation ---");
 
@@ -72,16 +63,17 @@ async function main() {
     }
 
     const usedWords = historyData.slice(0, 100).map(h => h.word);
+    
+    // UPDATED PROMPT: Specifically requests the gay streamer couple context and custom pronunciation
     const prompt = `Provide an interesting Word of the Day. 
     Return ONLY JSON: {
-        "word": "...", 
-        "partOfSpeech": "...", 
-        "phonetic": "...", 
-        "definition": "...", 
-        "example": "...", 
-        "sourceUrl": "Wikipedia URL for the concept/word"
+        "word": "The Word", 
+        "pronunciation": "American sound-out style with CAPS for emphasis (e.g. ih-BULL-yunt)", 
+        "definition": "One short, punchy sentence only", 
+        "example": "A short sentence using the word, featuring the gay streamer couple HoneyBear and JellyBean", 
+        "sourceUrl": "Wikipedia URL"
     }. 
-    Avoid these words: ${usedWords.join(", ")}`;
+    Keep all text extremely concise. Avoid these words: ${usedWords.join(", ")}`;
 
     const client = new GoogleGenAI({ apiKey: CONFIG.GEMINI_KEY });
 
@@ -103,7 +95,6 @@ async function main() {
 
             if (!wordData.word || !wordData.definition) throw new Error("Incomplete JSON");
 
-            // Save & Record
             fs.writeFileSync(CONFIG.SAVE_FILE, `${wordData.word}: ${wordData.definition}`);
             historyData.unshift(wordData);
             fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(historyData, null, 2));
