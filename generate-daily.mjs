@@ -3,7 +3,7 @@ import fs from 'fs';
 
 /**
  * CONFIGURATION
- * Using your original file names: current-word.txt and word-history.json
+ * Reverted to original hyphenated file names.
  */
 const CONFIG = {
     GEMINI_KEY: process.env.GEMINI_API_KEY,
@@ -16,34 +16,20 @@ const CONFIG = {
 const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/Los_Angeles' };
 const displayDate = new Date().toLocaleDateString('en-US', dateOptions);
 
-async function getWikipediaThumbnail(wikiUrl) {
-    try {
-        if (!wikiUrl || !wikiUrl.includes('wikipedia.org')) return null;
-        const title = wikiUrl.split('/').pop();
-        const apiUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=${title}&prop=pageimages&format=json&pithumbsize=400&origin=*`;
-        const res = await fetch(apiUrl);
-        const data = await res.json();
-        const pages = data.query.pages;
-        const pageId = Object.keys(pages)[0];
-        if (pageId === "-1") return null;
-        return pages[pageId].thumbnail ? pages[pageId].thumbnail.source : null;
-    } catch (err) {
-        console.error("[Wiki Error]:", err.message);
-        return null;
-    }
-}
-
+/**
+ * Discord Webhook Poster
+ * REMOVED: Wikipedia thumbnail logic entirely.
+ */
 async function postToDiscord(wordData) {
     console.log(`[Discord] Posting Word: ${wordData.word}`);
-    const wikiThumbnail = await getWikipediaThumbnail(wordData.sourceUrl);
 
     const discordPayload = {
         embeds: [{
             title: `Word of the Day — ${displayDate}`,
-            // # makes the word massive; Pronunciation uses CAPS emphasis
+            // # HUGE WORD
+            // Sound-out pronunciation with CAPS
             description: `# ${wordData.word.toUpperCase()}\n\n*${wordData.pronunciation}* / ***${wordData.partOfSpeech}***\n\n**Definition**\n> ${wordData.definition}\n\n**Example**\n*${wordData.example}*\n\n[Learn More](${wordData.sourceUrl})`,
-            color: 0x9b59b6, // Purple to match EBULLIENT style
-            thumbnail: wikiThumbnail ? { url: wikiThumbnail } : null
+            color: 0x9b59b6 // Purple theme
         }]
     };
 
@@ -67,16 +53,16 @@ async function main() {
 
     const usedWords = historyData.slice(0, 100).map(h => h.word);
     
-    // Strict prompt for content length, streamers, and American sound-out pronunciation
     const prompt = `Provide an interesting Word of the Day. 
     Return ONLY JSON: {
         "word": "The Word", 
         "partOfSpeech": "noun/verb/adjective",
         "pronunciation": "American sound-out style with CAPS for emphasis (e.g. ih-BULL-yunt)", 
         "definition": "One very short sentence", 
-        "example": "One short sentence using the word featuring the gay streamer couple, HoneyBear and JellyBean", 
+        "example": "One short sentence using the word featuring the streamers HoneyBear and JellyBean", 
         "sourceUrl": "Wikipedia URL"
     }. 
+    STRICTLY AVOID: phonetic symbols like /pɛtrɪkɔːr/. Use simple American sounds.
     Avoid: ${usedWords.join(", ")}`;
 
     const client = new GoogleGenAI({ apiKey: CONFIG.GEMINI_KEY });
