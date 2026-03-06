@@ -2,7 +2,7 @@ name: WOTD Bot
 
 on:
   schedule:
-    - cron: '30 14 * * *' # 7:30 AM PT
+    - cron: '30 14 * * *'
   workflow_dispatch:
 
 jobs:
@@ -29,10 +29,10 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
-      - name: Commit and Push History
+      - name: Commit and Push Changes
         run: |
           git config --global user.name "WOTD Bot"
           git config --global user.email "bot@github.com"
-          git add wotd_history.json current_wotd.txt
-          git commit -m "Update WOTD history [skip ci]" || echo "No changes"
-          git push
+          git add current-word.txt word-history.json
+          # Only commit if files actually changed
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update Daily Word and History [skip ci]" && git push)
