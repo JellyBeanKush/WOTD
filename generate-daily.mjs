@@ -1,35 +1,25 @@
 import { GoogleGenAI } from "@google/genai";
 import fs from 'fs';
+import path from 'path';
 
-/**
- * CONFIGURATION
- * Reverted to original hyphenated file names.
- */
 const CONFIG = {
     GEMINI_KEY: process.env.GEMINI_API_KEY,
     DISCORD_URL: process.env.DISCORD_WEBHOOK_URL,
-    SAVE_FILE: 'current-word.txt',
-    HISTORY_FILE: 'word-history.json',
+    // Using absolute pathing to ensure the runner finds the right files
+    SAVE_FILE: path.join(process.cwd(), 'current-word.txt'),
+    HISTORY_FILE: path.join(process.cwd(), 'word-history.json'),
     MODELS: ["gemini-3.1-flash-lite-preview", "gemini-3-flash-preview", "gemini-1.5-flash"]
 };
 
 const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/Los_Angeles' };
 const displayDate = new Date().toLocaleDateString('en-US', dateOptions);
 
-/**
- * Discord Webhook Poster
- * REMOVED: Wikipedia thumbnail logic entirely.
- */
 async function postToDiscord(wordData) {
-    console.log(`[Discord] Posting Word: ${wordData.word}`);
-
     const discordPayload = {
         embeds: [{
             title: `Word of the Day — ${displayDate}`,
-            // # HUGE WORD
-            // Sound-out pronunciation with CAPS
             description: `# ${wordData.word.toUpperCase()}\n\n*${wordData.pronunciation}* / ***${wordData.partOfSpeech}***\n\n**Definition**\n> ${wordData.definition}\n\n**Example**\n*${wordData.example}*\n\n[Learn More](${wordData.sourceUrl})`,
-            color: 0x9b59b6 // Purple theme
+            color: 0x9b59b6 
         }]
     };
 
@@ -45,10 +35,16 @@ async function postToDiscord(wordData) {
 async function main() {
     console.log("--- Starting WOTD Generation ---");
 
+    // 1. Load History
     let historyData = [];
     if (fs.existsSync(CONFIG.HISTORY_FILE)) {
-        try { historyData = JSON.parse(fs.readFileSync(CONFIG.HISTORY_FILE, 'utf8')); } 
-        catch (e) { console.warn("History reset."); }
+        try { 
+            const raw = fs.readFileSync(CONFIG.HISTORY_FILE, 'utf8');
+            historyData = JSON.parse(raw);
+            console.log(`[History] Loaded ${historyData.length} previous words.`);
+        } catch (e) { 
+            console.warn("[History] Error reading history file, starting fresh."); 
+        }
     }
 
     const usedWords = historyData.slice(0, 100).map(h => h.word);
@@ -57,13 +53,11 @@ async function main() {
     Return ONLY JSON: {
         "word": "The Word", 
         "partOfSpeech": "noun/verb/adjective",
-        "pronunciation": "American sound-out style with CAPS for emphasis (e.g. ih-BULL-yunt)", 
-        "definition": "One very short sentence", 
-        "example": "One short sentence using the word featuring the streamers HoneyBear and JellyBean", 
+        "pronunciation": "American sound-out style with CAPS for emphasis", 
+        "definition": "One short sentence", 
+        "example": "Short sentence featuring HoneyBear and JellyBean", 
         "sourceUrl": "Wikipedia URL"
-    }. 
-    STRICTLY AVOID: phonetic symbols like /pɛtrɪkɔːr/. Use simple American sounds.
-    Avoid: ${usedWords.join(", ")}`;
+    }. Avoid: ${usedWords.join(", ")}`;
 
     const client = new GoogleGenAI({ apiKey: CONFIG.GEMINI_KEY });
 
@@ -79,18 +73,22 @@ async function main() {
                 }
             });
 
-            const responseText = result.text;
-            const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-            const wordData = JSON.parse(jsonMatch ? jsonMatch[0] : responseText);
+            const wordData = JSON.parse(result.text.match(/\{[\s\S]*\}/)[0]);
 
-            if (!wordData.word || !wordData.definition) throw new Error("Incomplete JSON");
-
-            fs.writeFileSync(CONFIG.SAVE_FILE, `${wordData.word}: ${wordData.definition}`);
+            // 2. WRITE FILES (The critical part)
+            const saveText = `${wordData.word}: ${wordData.definition}`;
             historyData.unshift(wordData);
-            fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(historyData, null, 2));
+            const historyText = JSON.stringify(historyData, null, 2);
 
+            fs.writeFileSync(CONFIG.SAVE_FILE, saveText, 'utf8');
+            fs.writeFileSync(CONFIG.HISTORY_FILE, historyText, 'utf8');
+
+            console.log(`[Files] Successfully wrote to ${CONFIG.SAVE_FILE}`);
+            console.log(`[Files] Successfully updated ${CONFIG.HISTORY_FILE}`);
+
+            // 3. Post to Discord
             await postToDiscord(wordData);
-            console.log("--- Process Success ---");
+            console.log("--- Success ---");
             return; 
 
         } catch (err) {
