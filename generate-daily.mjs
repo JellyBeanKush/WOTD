@@ -5,7 +5,6 @@ import path from 'path';
 const CONFIG = {
     GEMINI_KEY: process.env.GEMINI_API_KEY,
     DISCORD_URL: process.env.DISCORD_WEBHOOK_URL,
-    // Using absolute pathing to ensure the runner finds the right files
     SAVE_FILE: path.join(process.cwd(), 'current-word.txt'),
     HISTORY_FILE: path.join(process.cwd(), 'word-history.json'),
     MODELS: ["gemini-3.1-flash-lite-preview", "gemini-3-flash-preview", "gemini-1.5-flash"]
@@ -47,9 +46,13 @@ async function main() {
         }
     }
 
-    const usedWords = historyData.slice(0, 100).map(h => h.word);
+    // Map all previously used words to lowercase for strict comparison
+    const usedWords = historyData.map(h => h.word.toLowerCase());
     
-    const prompt = `Provide an interesting Word of the Day. 
+    // Hardened prompt with explicit constraints
+    const prompt = `Provide a unique and interesting Word of the Day. 
+    IMPORTANT: Do not use any of the following words: ${usedWords.slice(0, 150).join(", ")}.
+    
     Return ONLY JSON: {
         "word": "The Word", 
         "partOfSpeech": "noun/verb/adjective",
@@ -57,7 +60,7 @@ async function main() {
         "definition": "One short sentence", 
         "example": "Short sentence featuring HoneyBear and JellyBean", 
         "sourceUrl": "Wikipedia URL"
-    }. Avoid: ${usedWords.join(", ")}`;
+    }.`;
 
     const client = new GoogleGenAI({ apiKey: CONFIG.GEMINI_KEY });
 
@@ -74,8 +77,15 @@ async function main() {
             });
 
             const wordData = JSON.parse(result.text.match(/\{[\s\S]*\}/)[0]);
+            const newWordClean = wordData.word.trim().toLowerCase();
 
-            // 2. WRITE FILES (The critical part)
+            // --- THE FIX: Hard Validation ---
+            if (usedWords.includes(newWordClean)) {
+                console.warn(`[Duplicate Found] Model suggested "${wordData.word}", which is already in history. Retrying...`);
+                continue; // Skips this model and moves to the next one to get a fresh word
+            }
+
+            // 2. WRITE FILES
             const saveText = `${wordData.word}: ${wordData.definition}`;
             historyData.unshift(wordData);
             const historyText = JSON.stringify(historyData, null, 2);
@@ -95,6 +105,8 @@ async function main() {
             console.warn(`[Fail] ${modelName}: ${err.message}`);
         }
     }
+    
+    console.error("Critical: All models failed or produced duplicates.");
     process.exit(1);
 }
 
