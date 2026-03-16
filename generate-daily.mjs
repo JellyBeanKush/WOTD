@@ -80,7 +80,7 @@ async function main() {
         "partOfSpeech": "noun/verb/adjective",
         "pronunciation": "American sound-out style with CAPS for emphasis", 
         "definition": "One short sentence", 
-        "example": "Short sentence featuring HoneyBear and JellyBean", 
+        "example": "Short sentence featuring HoneyBear and JellyBean, two male gay streamers", 
         "sourceUrl": "https://en.wiktionary.org/wiki/Word"
     }. 
     STRICT RULE: Do NOT use Wikipedia. Use Wiktionary as the primary source.`;
