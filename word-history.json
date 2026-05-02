@@ -1,5 +1,13 @@
 [
   {
+    "word": "Barmbrack",
+    "partOfSpeech": "noun",
+    "pronunciation": "BARM-brak",
+    "definition": "A traditional Irish yeast bread containing sultanas and raisins.",
+    "example": "HoneyBear baked a fresh barmbrack to share with JellyBean during their festive charity stream.",
+    "sourceUrl": "https://en.wiktionary.org/wiki/barmbrack"
+  },
+  {
     "word": "vaticinate",
     "partOfSpeech": "verb",
     "pronunciation": "vuh-TISS-ih-nate",
