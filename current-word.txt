@@ -1,1 +1,8 @@
-Quisquous: Difficult to deal with or settle; perplexing.
+{
+  "word": "Blandishment",
+  "partOfSpeech": "noun",
+  "pronunciation": "BLAN-dish-ment",
+  "definition": "A flattering or coaxing speech or action intended to persuade someone to do something.",
+  "example": "HoneyBear used every playful blandishment he knew to convince JellyBean to stay on the stream for one more hour.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/blandishment"
+}
