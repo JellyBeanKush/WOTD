@@ -109,7 +109,8 @@ async function main() {
 
             // Save to history
             historyData.unshift(wordData);
-            fs.writeFileSync(CONFIG.SAVE_FILE, `${wordData.word}: ${wordData.definition}`, 'utf8');
+
+            fs.writeFileSync(CONFIG.SAVE_FILE, JSON.stringify(wordData, null, 2), 'utf8');
             fs.writeFileSync(CONFIG.HISTORY_FILE, JSON.stringify(historyData, null, 2), 'utf8');
 
             // Post with the new URL validation logic
