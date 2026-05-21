@@ -1,8 +1,8 @@
 {
-  "word": "Blandishment",
-  "partOfSpeech": "noun",
-  "pronunciation": "BLAN-dish-ment",
-  "definition": "A flattering or coaxing speech or action intended to persuade someone to do something.",
-  "example": "HoneyBear used every playful blandishment he knew to convince JellyBean to stay on the stream for one more hour.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/blandishment"
+  "word": "Fissirostral",
+  "partOfSpeech": "adjective",
+  "pronunciation": "fiss-ih-ROSS-trul",
+  "definition": "Having a wide, deeply cleft beak as found in birds like swifts and nightjars.",
+  "example": "HoneyBear and JellyBean observed a fissirostral bird catching insects during their outdoor stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/fissirostral"
 }
