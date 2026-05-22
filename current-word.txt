@@ -1,8 +1,8 @@
 {
-  "word": "Fissirostral",
+  "word": "fuliginous",
   "partOfSpeech": "adjective",
-  "pronunciation": "fiss-ih-ROSS-trul",
-  "definition": "Having a wide, deeply cleft beak as found in birds like swifts and nightjars.",
-  "example": "HoneyBear and JellyBean observed a fissirostral bird catching insects during their outdoor stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/fissirostral"
+  "pronunciation": "fyoo-LIJ-ih-nus",
+  "definition": "Sooty, smoky, or resembling the color of soot.",
+  "example": "HoneyBear and JellyBean accidentally set their studio curtains on fire, leaving the walls covered in a dark, fuliginous residue.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/fuliginous"
 }
