@@ -1,8 +1,8 @@
 {
-  "word": "fuliginous",
-  "partOfSpeech": "adjective",
-  "pronunciation": "fyoo-LIJ-ih-nus",
-  "definition": "Sooty, smoky, or resembling the color of soot.",
-  "example": "HoneyBear and JellyBean accidentally set their studio curtains on fire, leaving the walls covered in a dark, fuliginous residue.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/fuliginous"
+  "word": "Fustilarian",
+  "partOfSpeech": "noun",
+  "pronunciation": "FUSS-tih-LAY-ree-un",
+  "definition": "A word used to describe a person who is stale, musty, or ill-favored.",
+  "example": "HoneyBear teased JellyBean, calling him a fustilarian for wearing the same lucky sweatshirt three streams in a row.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/fustilarian"
 }
