@@ -1,8 +1,8 @@
 {
-  "word": "Fustilarian",
+  "word": "obdormition",
   "partOfSpeech": "noun",
-  "pronunciation": "FUSS-tih-LAY-ree-un",
-  "definition": "A word used to describe a person who is stale, musty, or ill-favored.",
-  "example": "HoneyBear teased JellyBean, calling him a fustilarian for wearing the same lucky sweatshirt three streams in a row.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/fustilarian"
+  "pronunciation": "ob-dor-MISH-un",
+  "definition": "The numbness or 'falling asleep' of a limb caused by pressure on a nerve.",
+  "example": "HoneyBear had to pause his stream because of a sudden obdormition in his leg after JellyBean sat on his lap for too long.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/obdormition"
 }
