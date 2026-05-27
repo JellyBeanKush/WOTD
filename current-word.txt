@@ -1,8 +1,8 @@
 {
-  "word": "obdormition",
+  "word": "resipiscence",
   "partOfSpeech": "noun",
-  "pronunciation": "ob-dor-MISH-un",
-  "definition": "The numbness or 'falling asleep' of a limb caused by pressure on a nerve.",
-  "example": "HoneyBear had to pause his stream because of a sudden obdormition in his leg after JellyBean sat on his lap for too long.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/obdormition"
+  "pronunciation": "rez-ih-PISS-ents",
+  "definition": "A return to a right frame of mind or a reformation of one's character.",
+  "example": "After a heated argument on stream, HoneyBear showed resipiscence by apologizing to JellyBean for his competitive outburst.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/resipiscence"
 }
