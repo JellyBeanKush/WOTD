@@ -1,8 +1,8 @@
 {
-  "word": "resipiscence",
+  "word": "Zenzizenzizenzic",
   "partOfSpeech": "noun",
-  "pronunciation": "rez-ih-PISS-ents",
-  "definition": "A return to a right frame of mind or a reformation of one's character.",
-  "example": "After a heated argument on stream, HoneyBear showed resipiscence by apologizing to JellyBean for his competitive outburst.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/resipiscence"
+  "pronunciation": "ZEN-zi-ZEN-zi-ZEN-zik",
+  "definition": "A mathematical term representing the eighth power of a number.",
+  "example": "HoneyBear and JellyBean calculated the zenzizenzizenzic of two during their live stream to settle a viewer challenge.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/zenzizenzizenzic"
 }
