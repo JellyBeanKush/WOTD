@@ -1,8 +1,8 @@
 {
-  "word": "Blandiloquous",
-  "partOfSpeech": "adjective",
-  "pronunciation": "blan-DIL-uh-kwus",
-  "definition": "Speaking in a flattering or smooth-talking manner.",
-  "example": "HoneyBear used a blandiloquous tone to distract the chat while JellyBean sneakily sabotaged his base in the game.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/blandiloquous"
+  "word": "leptosome",
+  "partOfSpeech": "noun",
+  "pronunciation": "LEP-tuh-sohm",
+  "definition": "A person with a slender or thin body build.",
+  "example": "HoneyBear described his fellow streamer JellyBean as a classic leptosome during their joint charity broadcast.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/leptosome"
 }
