@@ -1,8 +1,8 @@
 {
-  "word": "leptosome",
+  "word": "gargalesis",
   "partOfSpeech": "noun",
-  "pronunciation": "LEP-tuh-sohm",
-  "definition": "A person with a slender or thin body build.",
-  "example": "HoneyBear described his fellow streamer JellyBean as a classic leptosome during their joint charity broadcast.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/leptosome"
+  "pronunciation": "gar-guh-LEE-sis",
+  "definition": "The act of deep, heavy tickling that induces laughter.",
+  "example": "HoneyBear dissolved into uncontrollable giggles when JellyBean engaged in playful gargalesis during their live stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/gargalesis"
 }
