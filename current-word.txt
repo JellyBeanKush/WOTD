@@ -1,8 +1,8 @@
 {
-  "word": "Incalescent",
-  "partOfSpeech": "adjective",
-  "pronunciation": "in-kuh-LESS-unt",
-  "definition": "Increasing in heat or becoming warmer.",
-  "example": "The chemistry between HoneyBear and JellyBean became incalescent as they collaborated on their charity live stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/incalescent"
+  "word": "peradventure",
+  "partOfSpeech": "noun",
+  "pronunciation": "pur-ad-VEN-chur",
+  "definition": "A state of uncertainty, doubt, or a chance occurrence.",
+  "example": "HoneyBear and JellyBean analyzed their stream metrics to see if there was any peradventure that they would reach their sub goal by midnight.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/peradventure"
 }
