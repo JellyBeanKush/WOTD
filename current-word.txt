@@ -1,8 +1,8 @@
 {
-  "word": "peradventure",
+  "word": "xylopolist",
   "partOfSpeech": "noun",
-  "pronunciation": "pur-ad-VEN-chur",
-  "definition": "A state of uncertainty, doubt, or a chance occurrence.",
-  "example": "HoneyBear and JellyBean analyzed their stream metrics to see if there was any peradventure that they would reach their sub goal by midnight.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/peradventure"
+  "pronunciation": "zy-LOP-uh-list",
+  "definition": "A person who sells wood or timber.",
+  "example": "During their Minecraft marathon, HoneyBear joked that JellyBean was the server's most successful xylopolist after he cleared an entire forest.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/xylopolist"
 }
