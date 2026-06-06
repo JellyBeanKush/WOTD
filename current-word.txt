@@ -1,8 +1,8 @@
 {
-  "word": "xylopolist",
+  "word": "macquereau",
   "partOfSpeech": "noun",
-  "pronunciation": "zy-LOP-uh-list",
-  "definition": "A person who sells wood or timber.",
-  "example": "During their Minecraft marathon, HoneyBear joked that JellyBean was the server's most successful xylopolist after he cleared an entire forest.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/xylopolist"
+  "pronunciation": "MACK-er-oh",
+  "definition": "A pimp or a person who procures customers for prostitutes.",
+  "example": "HoneyBear jokingly called JellyBean his macquereau after the latter spent the whole stream trying to set him up with their viewers.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/macquereau"
 }
