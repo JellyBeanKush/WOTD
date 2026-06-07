@@ -1,8 +1,8 @@
 {
-  "word": "macquereau",
+  "word": "Brumation",
   "partOfSpeech": "noun",
-  "pronunciation": "MACK-er-oh",
-  "definition": "A pimp or a person who procures customers for prostitutes.",
-  "example": "HoneyBear jokingly called JellyBean his macquereau after the latter spent the whole stream trying to set him up with their viewers.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/macquereau"
+  "pronunciation": "broo-MAY-shun",
+  "definition": "A state of dormancy in reptiles that is similar to hibernation in mammals.",
+  "example": "HoneyBear and JellyBean had to pause their variety stream when their pet bearded dragon entered brumation for the winter.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/brumation"
 }
