@@ -1,8 +1,8 @@
 {
-  "word": "Onychomancy",
-  "partOfSpeech": "noun",
-  "pronunciation": "on-ih-koh-MAN-see",
-  "definition": "A form of divination using the fingernails as they reflect in the sunlight.",
-  "example": "During a late-night stream, HoneyBear jokingly performed onychomancy on JellyBean's manicured hands to predict their next match victory.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/onychomancy"
+  "word": "lethargize",
+  "partOfSpeech": "verb",
+  "pronunciation": "LETH-er-jize",
+  "definition": "To cause someone to become sluggish, drowsy, or indifferent.",
+  "example": "The cozy fireplace and heavy blankets threatened to lethargize HoneyBear and JellyBean during their 24-hour charity stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/lethargize"
 }
