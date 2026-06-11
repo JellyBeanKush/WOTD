@@ -1,8 +1,8 @@
 {
-  "word": "Nudiustertian",
+  "word": "Bathykolpian",
   "partOfSpeech": "adjective",
-  "pronunciation": "noo-dee-us-TUR-shun",
-  "definition": "Relating to the day before yesterday.",
-  "example": "HoneyBear and JellyBean reminisced during their stream about the hilarious glitch they encountered during their nudiustertian broadcast.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/nudiustertian"
+  "pronunciation": "bath-ee-KOL-pee-un",
+  "definition": "Having a deep bosom or deep-set chest folds.",
+  "example": "HoneyBear wore a low-cut tank top to show off his bathykolpian physique while JellyBean hyped him up in the chat.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/bathykolpian"
 }
