@@ -1,8 +1,8 @@
 {
-  "word": "Bovarize",
-  "partOfSpeech": "verb",
-  "pronunciation": "BOH-vuh-ryze",
-  "definition": "To dominate or shape one's personality according to a romanticized or unrealistic self-image.",
-  "example": "During their joint charity stream, HoneyBear began to bovarize his persona as a tragic hero, much to the amusement of JellyBean.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/bovarize"
+  "word": "Onychotillomania",
+  "partOfSpeech": "noun",
+  "pronunciation": "ON-ih-koh-TILL-oh-MAY-nee-uh",
+  "definition": "A compulsive disorder characterized by the constant picking or tearing at one's own finger or toe nails.",
+  "example": "JellyBean noticed HoneyBear's onychotillomania worsening during the high-stakes horror game stream and reached over to hold his hand to keep him from picking his cuticles.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/onychotillomania"
 }
