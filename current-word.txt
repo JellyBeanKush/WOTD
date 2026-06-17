@@ -1,8 +1,8 @@
 {
-  "word": "erumpent",
+  "word": "pinguid",
   "partOfSpeech": "adjective",
-  "pronunciation": "eh-RUM-pent",
-  "definition": "Bursting forth or through a surface, as a plant structure or fungal growth.",
-  "example": "HoneyBear watched intently as the erumpent moss began to push through the floorboards of the gaming studio, while JellyBean joked that it was just a new type of stream decoration.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/erumpent"
+  "pronunciation": "PING-gwid",
+  "definition": "Fat, greasy, or oily in nature.",
+  "example": "HoneyBear complained that the keyboard was covered in a pinguid residue after JellyBean finished eating his snack during their stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/pinguid"
 }
