@@ -1,8 +1,8 @@
 {
-  "word": "Blandiloquy",
+  "word": "finnimbrun",
   "partOfSpeech": "noun",
-  "pronunciation": "blan-DIL-uh-kwee",
-  "definition": "The act of using mild, flattering, or smooth speech to persuade or please someone.",
-  "example": "HoneyBear used his most charming blandiloquy to convince JellyBean to switch characters during their joint stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/blandiloquy"
+  "pronunciation": "FIN-im-brun",
+  "definition": "A trinket or a knick-knack of little value.",
+  "example": "HoneyBear showed off a rare finnimbrun he found while JellyBean checked their stream chat for donations.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/finnimbrun"
 }
