@@ -1,8 +1,8 @@
 {
-  "word": "pogonotrophy",
+  "word": "Yarborough",
   "partOfSpeech": "noun",
-  "pronunciation": "poh-guh-NAH-truh-fee",
-  "definition": "The act of cultivating or growing a beard.",
-  "example": "HoneyBear and JellyBean compared their progress in pogonotrophy while setting up their new face cams for the stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/pogonotrophy"
+  "pronunciation": "YAR-burr-oh",
+  "definition": "A hand of cards containing no card higher than a nine.",
+  "example": "HoneyBear sighed when he dealt JellyBean a yarborough during their live-streamed card game, knowing it would be a difficult round to win.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/yarborough"
 }
