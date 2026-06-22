@@ -1,8 +1,8 @@
 {
-  "word": "Yarborough",
+  "word": "Crucian",
   "partOfSpeech": "noun",
-  "pronunciation": "YAR-burr-oh",
-  "definition": "A hand of cards containing no card higher than a nine.",
-  "example": "HoneyBear sighed when he dealt JellyBean a yarborough during their live-streamed card game, knowing it would be a difficult round to win.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/yarborough"
+  "pronunciation": "KROO-shun",
+  "definition": "A person who is a native or inhabitant of Saint Croix in the United States Virgin Islands.",
+  "example": "HoneyBear and JellyBean shared a flight to the islands to film a special stream about HoneyBear's heritage as a proud Crucian.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/Crucian"
 }
