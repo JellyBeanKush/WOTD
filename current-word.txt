@@ -1,8 +1,8 @@
 {
-  "word": "Crucian",
-  "partOfSpeech": "noun",
-  "pronunciation": "KROO-shun",
-  "definition": "A person who is a native or inhabitant of Saint Croix in the United States Virgin Islands.",
-  "example": "HoneyBear and JellyBean shared a flight to the islands to film a special stream about HoneyBear's heritage as a proud Crucian.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/Crucian"
+  "word": "clancular",
+  "partOfSpeech": "adjective",
+  "pronunciation": "KLANG-kyuh-ler",
+  "definition": "Performed in a secret or clandestine manner.",
+  "example": "HoneyBear and JellyBean shared a clancular kiss behind the green screen before starting their couple's stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/clancular"
 }
