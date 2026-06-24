@@ -1,8 +1,8 @@
 {
-  "word": "clancular",
-  "partOfSpeech": "adjective",
-  "pronunciation": "KLANG-kyuh-ler",
-  "definition": "Performed in a secret or clandestine manner.",
-  "example": "HoneyBear and JellyBean shared a clancular kiss behind the green screen before starting their couple's stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/clancular"
+  "word": "Blandidiction",
+  "partOfSpeech": "noun",
+  "pronunciation": "blan-dih-DIK-shun",
+  "definition": "The act of speaking in a smooth, flattering, or soothing manner.",
+  "example": "HoneyBear used a gentle blandidiction to calm JellyBean down after a frustrating loss during their joint horror game stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/blandidiction"
 }
