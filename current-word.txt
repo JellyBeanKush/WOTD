@@ -1,8 +1,8 @@
 {
-  "word": "Blandidiction",
-  "partOfSpeech": "noun",
-  "pronunciation": "blan-dih-DIK-shun",
-  "definition": "The act of speaking in a smooth, flattering, or soothing manner.",
-  "example": "HoneyBear used a gentle blandidiction to calm JellyBean down after a frustrating loss during their joint horror game stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/blandidiction"
+  "word": "prepollent",
+  "partOfSpeech": "adjective",
+  "pronunciation": "pree-PAHL-ent",
+  "definition": "Having superior power, influence, or force over others.",
+  "example": "HoneyBear was the prepollent force in the tournament, leading JellyBean and their team to a flawless victory during the charity stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/prepollent"
 }
