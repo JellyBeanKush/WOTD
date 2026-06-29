@@ -1,8 +1,8 @@
 {
-  "word": "sprauchle",
-  "partOfSpeech": "verb",
-  "pronunciation": "SPRAU-kul",
-  "definition": "To scramble or climb awkwardly with hands and feet.",
-  "example": "HoneyBear had to sprauchle up the steep embankment to reach the stream, while JellyBean cheered him on from the bottom.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/sprauchle"
+  "word": "Heptamerous",
+  "partOfSpeech": "adjective",
+  "pronunciation": "hep-TAM-er-uhs",
+  "definition": "Having or consisting of seven parts or divisions.",
+  "example": "HoneyBear and JellyBean decorated their set with a heptamerous floral pattern to represent their seven years of streaming together.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/heptamerous"
 }
