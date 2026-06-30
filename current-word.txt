@@ -1,8 +1,8 @@
 {
-  "word": "Heptamerous",
-  "partOfSpeech": "adjective",
-  "pronunciation": "hep-TAM-er-uhs",
-  "definition": "Having or consisting of seven parts or divisions.",
-  "example": "HoneyBear and JellyBean decorated their set with a heptamerous floral pattern to represent their seven years of streaming together.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/heptamerous"
+  "word": "vulpinate",
+  "partOfSpeech": "verb",
+  "pronunciation": "VUL-pin-ate",
+  "definition": "To act like a fox, specifically to use craftiness or cunning to deceive.",
+  "example": "HoneyBear tried to vulpinate his way into a higher rank, but JellyBean saw through his clever ruse during the livestream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/vulpinate"
 }
