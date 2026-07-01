@@ -1,8 +1,8 @@
 {
-  "word": "vulpinate",
-  "partOfSpeech": "verb",
-  "pronunciation": "VUL-pin-ate",
-  "definition": "To act like a fox, specifically to use craftiness or cunning to deceive.",
-  "example": "HoneyBear tried to vulpinate his way into a higher rank, but JellyBean saw through his clever ruse during the livestream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/vulpinate"
+  "word": "empleomania",
+  "partOfSpeech": "noun",
+  "pronunciation": "em-PLEE-oh-MAY-nee-uh",
+  "definition": "An obsessive desire to hold public office or a government position.",
+  "example": "JellyBean joked that HoneyBear's constant networking with the platform's safety council was a clear case of empleomania.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/empleomania"
 }
