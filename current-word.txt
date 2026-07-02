@@ -1,8 +1,8 @@
 {
-  "word": "empleomania",
+  "word": "lethonomia",
   "partOfSpeech": "noun",
-  "pronunciation": "em-PLEE-oh-MAY-nee-uh",
-  "definition": "An obsessive desire to hold public office or a government position.",
-  "example": "JellyBean joked that HoneyBear's constant networking with the platform's safety council was a clear case of empleomania.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/empleomania"
+  "pronunciation": "le-thuh-NOH-mee-uh",
+  "definition": "The inability to recall or remember a specific name.",
+  "example": "During the marathon stream, HoneyBear suffered a brief bout of lethonomia when he couldn't remember the developer's name, but JellyBean quickly whispered it to him.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/lethonomia"
 }
