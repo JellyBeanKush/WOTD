@@ -1,8 +1,8 @@
 {
-  "word": "oneirocriticism",
-  "partOfSpeech": "noun",
-  "pronunciation": "oh-NYE-roh-KRIT-ih-siz-um",
-  "definition": "The art or practice of interpreting dreams.",
-  "example": "HoneyBear and JellyBean spent their post-stream chill time diving into oneirocriticism to figure out why they both dreamt of pixelated glitch monsters.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/oneirocriticism"
+  "word": "Barmicide",
+  "partOfSpeech": "adjective",
+  "pronunciation": "BAR-muh-syde",
+  "definition": "Providing only the illusion of abundance or luxury while offering nothing of substance.",
+  "example": "HoneyBear told his viewers the stream giveaway was Barmicide after JellyBean accidentally deleted the prize codes.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/Barmicide"
 }
