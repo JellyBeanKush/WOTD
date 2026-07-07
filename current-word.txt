@@ -1,8 +1,8 @@
 {
-  "word": "Barmicide",
-  "partOfSpeech": "adjective",
-  "pronunciation": "BAR-muh-syde",
-  "definition": "Providing only the illusion of abundance or luxury while offering nothing of substance.",
-  "example": "HoneyBear told his viewers the stream giveaway was Barmicide after JellyBean accidentally deleted the prize codes.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/Barmicide"
+  "word": "Bawcock",
+  "partOfSpeech": "noun",
+  "pronunciation": "BAW-kok",
+  "definition": "A fine fellow or a term of endearment for a male friend.",
+  "example": "HoneyBear told his chat that JellyBean was a true bawcock for staying late to help him finish the raid.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/bawcock"
 }
