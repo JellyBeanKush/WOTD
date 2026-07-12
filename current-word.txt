@@ -1,8 +1,8 @@
 {
-  "word": "Agelast",
-  "partOfSpeech": "noun",
-  "pronunciation": "A-jeh-last",
-  "definition": "A person who never laughs or lacks a sense of humor.",
-  "example": "HoneyBear teased JellyBean for being such an agelast whenever the chat spammed funny emotes during their stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/agelast"
+  "word": "Blandish",
+  "partOfSpeech": "verb",
+  "pronunciation": "BLAN-dish",
+  "definition": "To coax or persuade someone by using flattery or kind words.",
+  "example": "HoneyBear tried to blandish JellyBean into playing a horror game during their joint charity stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/blandish"
 }
