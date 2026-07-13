@@ -1,8 +1,8 @@
 {
-  "word": "Blandish",
-  "partOfSpeech": "verb",
-  "pronunciation": "BLAN-dish",
-  "definition": "To coax or persuade someone by using flattery or kind words.",
-  "example": "HoneyBear tried to blandish JellyBean into playing a horror game during their joint charity stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/blandish"
+  "word": "Banausocracy",
+  "partOfSpeech": "noun",
+  "pronunciation": "buh-NAW-sah-kruh-see",
+  "definition": "Government by or the rule of common artisans or the working class.",
+  "example": "During their Minecraft stream, HoneyBear joked that their server was a banausocracy since JellyBean spent all his time crafting tools while HoneyBear built the infrastructure.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/banausocracy"
 }
