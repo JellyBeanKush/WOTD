@@ -1,8 +1,8 @@
 {
-  "word": "Banausocracy",
+  "word": "estrapade",
   "partOfSpeech": "noun",
-  "pronunciation": "buh-NAW-sah-kruh-see",
-  "definition": "Government by or the rule of common artisans or the working class.",
-  "example": "During their Minecraft stream, HoneyBear joked that their server was a banausocracy since JellyBean spent all his time crafting tools while HoneyBear built the infrastructure.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/banausocracy"
+  "pronunciation": "es-trah-PAHD",
+  "definition": "A horse's attempt to throw its rider by kicking out the hind legs while the forelegs are planted.",
+  "example": "HoneyBear laughed on stream when JellyBean's virtual horse performed an unexpected estrapade, sending his character flying into the mud.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/estrapade"
 }
