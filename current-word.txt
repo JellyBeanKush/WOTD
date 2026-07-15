@@ -1,8 +1,8 @@
 {
-  "word": "estrapade",
-  "partOfSpeech": "noun",
-  "pronunciation": "es-trah-PAHD",
-  "definition": "A horse's attempt to throw its rider by kicking out the hind legs while the forelegs are planted.",
-  "example": "HoneyBear laughed on stream when JellyBean's virtual horse performed an unexpected estrapade, sending his character flying into the mud.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/estrapade"
+  "word": "Blandiloquent",
+  "partOfSpeech": "adjective",
+  "pronunciation": "blan-DIL-uh-kwent",
+  "definition": "Speaking in a smooth, flattering, or persuasive manner.",
+  "example": "HoneyBear used a blandiloquent tone to soothe JellyBean after they lost their hard-mode run on stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/blandiloquent"
 }
