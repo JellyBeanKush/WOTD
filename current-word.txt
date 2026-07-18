@@ -1,8 +1,8 @@
 {
-  "word": "xyloid",
-  "partOfSpeech": "adjective",
-  "pronunciation": "ZY-loyd",
-  "definition": "Resembling or having the properties of wood.",
-  "example": "HoneyBear noted that the xyloid texture of the new gaming desk looked great on JellyBean's webcam during their joint stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/xyloid"
+  "word": "Blandiment",
+  "partOfSpeech": "noun",
+  "pronunciation": "BLAN-dih-ment",
+  "definition": "A word or act of endearment used to flatter or entice.",
+  "example": "HoneyBear whispered a sweet blandiment into the microphone, making JellyBean blush during their charity stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/blandiment"
 }
