@@ -1,8 +1,8 @@
 {
-  "word": "Blandiment",
+  "word": "xylanthrax",
   "partOfSpeech": "noun",
-  "pronunciation": "BLAN-dih-ment",
-  "definition": "A word or act of endearment used to flatter or entice.",
-  "example": "HoneyBear whispered a sweet blandiment into the microphone, making JellyBean blush during their charity stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/blandiment"
+  "pronunciation": "zy-LAN-thraks",
+  "definition": "A form of charcoal prepared from wood, often referred to as wood-coal.",
+  "example": "HoneyBear and JellyBean joked on stream that their burnt dinner looked more like xylanthrax than actual food.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/xylanthrax"
 }
