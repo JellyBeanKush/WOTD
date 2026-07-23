@@ -1,8 +1,8 @@
 {
-  "word": "xylanthrax",
+  "word": "Benthos",
   "partOfSpeech": "noun",
-  "pronunciation": "zy-LAN-thraks",
-  "definition": "A form of charcoal prepared from wood, often referred to as wood-coal.",
-  "example": "HoneyBear and JellyBean joked on stream that their burnt dinner looked more like xylanthrax than actual food.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/xylanthrax"
+  "pronunciation": "BEN-thos",
+  "definition": "The community of organisms that live on, in, or near the seabed, riverbed, or lake floor.",
+  "example": "During their subnautical charity stream, HoneyBear and JellyBean marveled at the colorful benthos visible through the submarine's camera.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/benthos"
 }
