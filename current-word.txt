@@ -1,8 +1,8 @@
 {
-  "word": "Benthos",
-  "partOfSpeech": "noun",
-  "pronunciation": "BEN-thos",
-  "definition": "The community of organisms that live on, in, or near the seabed, riverbed, or lake floor.",
-  "example": "During their subnautical charity stream, HoneyBear and JellyBean marveled at the colorful benthos visible through the submarine's camera.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/benthos"
+  "word": "Benthopelagic",
+  "partOfSpeech": "adjective",
+  "pronunciation": "ben-tho-puh-LA-jik",
+  "definition": "Relating to the ocean area just above the bottom, or the organisms living there.",
+  "example": "HoneyBear and JellyBean spent their subnautical stream discussing the strange benthopelagic fish they encountered in the game.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/benthopelagic"
 }
