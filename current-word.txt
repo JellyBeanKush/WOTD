@@ -1,8 +1,8 @@
 {
-  "word": "Onychotrophy",
+  "word": "Boscobel",
   "partOfSpeech": "noun",
-  "pronunciation": "on-ih-KOT-ruh-fee",
-  "definition": "The nutrition or growth of the fingernails or toenails.",
-  "example": "HoneyBear noticed that JellyBean’s consistent onychotrophy resulted in perfectly manicured hands that looked great on their shared gaming stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/onychotrophy"
+  "pronunciation": "BOS-kuh-bel",
+  "definition": "A secret or secluded bower, thicket, or woods.",
+  "example": "HoneyBear and JellyBean found a private boscobel in the forest to stream their outdoor vlog away from the festival crowds.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/Boscobel"
 }
