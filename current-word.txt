@@ -1,8 +1,8 @@
 {
-  "word": "Boscobel",
+  "word": "Blandimentum",
   "partOfSpeech": "noun",
-  "pronunciation": "BOS-kuh-bel",
-  "definition": "A secret or secluded bower, thicket, or woods.",
-  "example": "HoneyBear and JellyBean found a private boscobel in the forest to stream their outdoor vlog away from the festival crowds.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/Boscobel"
+  "pronunciation": "blan-dih-MEN-tum",
+  "definition": "An enticement, allurement, or charm used to win someone over.",
+  "example": "HoneyBear used a sweet blandimentum to convince JellyBean to join his late-night co-op stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/blandimentum"
 }
