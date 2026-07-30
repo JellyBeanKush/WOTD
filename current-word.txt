@@ -1,8 +1,8 @@
 {
-  "word": "Brobdingnagian",
-  "partOfSpeech": "adjective",
-  "pronunciation": "brob-ding-NAG-ee-un",
-  "definition": "Something that is marked by an enormous or gigantic size.",
-  "example": "HoneyBear surprised JellyBean during their stream by ordering a Brobdingnagian gummy bear that was larger than their setup.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/Brobdingnagian"
+  "word": "cynarctomachy",
+  "partOfSpeech": "noun",
+  "pronunciation": "sin-ARK-toh-mak-ee",
+  "definition": "The act of bear-baiting with dogs.",
+  "example": "While browsing old history books on stream, HoneyBear joked that he and JellyBean should never engage in cynarctomachy given their names.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/cynarctomachy"
 }
