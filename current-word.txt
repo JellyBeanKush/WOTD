@@ -1,8 +1,8 @@
 {
-  "word": "garrulous",
+  "word": "Blandid",
   "partOfSpeech": "adjective",
-  "pronunciation": "GAIR-uh-luss",
-  "definition": "Excessively talkative, especially on trivial matters.",
-  "example": "HoneyBear and JellyBean remained garrulous throughout their entire late-night stream, unable to stop gossiping about their latest gaming wins.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/garrulous"
+  "pronunciation": "BLAN-did",
+  "definition": "Gentle, flattering, or soothing in manner.",
+  "example": "HoneyBear offered a blandid compliment to JellyBean during their sub-athon to keep the mood light.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/blandid"
 }
