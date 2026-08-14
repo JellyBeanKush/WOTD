@@ -1,8 +1,8 @@
 {
-  "word": "Borborygmus",
+  "word": "sparganosis",
   "partOfSpeech": "noun",
-  "pronunciation": "bor-buh-RIG-mus",
-  "definition": "A rumbling or gurgling noise made by the movement of fluid and gas in the intestines.",
-  "example": "During a quiet moment in their horror game stream, HoneyBear's loud borborygmus was picked up by the mic, making JellyBean giggle uncontrollably.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/borborygmus"
+  "pronunciation": "spar-ga-NO-sis",
+  "definition": "An infection caused by the migration of plerocercoid larvae of certain tapeworms in human tissues.",
+  "example": "HoneyBear teased JellyBean for reading medical journals, but then shuddered when he learned the gross details of sparganosis.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/sparganosis"
 }
