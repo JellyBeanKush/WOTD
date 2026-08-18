@@ -1,8 +1,8 @@
 {
-  "word": "Oxygeusia",
-  "partOfSpeech": "noun",
-  "pronunciation": "ox-ee-GYOO-zee-uh",
-  "definition": "An abnormally acute or heightened sense of taste.",
-  "example": "HoneyBear marveled at JellyBean's oxygeusia when his partner correctly identified every obscure spice in their anniversary dinner.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/oxygeusia"
+  "word": "Inaniloquent",
+  "partOfSpeech": "adjective",
+  "pronunciation": "in-ah-NIL-oh-kwent",
+  "definition": "Prone to talking nonsense or engaging in empty, foolish chatter.",
+  "example": "JellyBean joked that HoneyBear was being particularly inaniloquent during their late-night stream after his third energy drink.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/inaniloquent"
 }
