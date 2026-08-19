@@ -1,5 +1,13 @@
 [
   {
+    "word": "zugzwang",
+    "partOfSpeech": "noun",
+    "pronunciation": "TSOOK-tsvahng",
+    "definition": "A situation in which every possible move a player can make will worsen their position.",
+    "example": "HoneyBear and JellyBean were playing chess on stream until JellyBean realized he was in zugzwang and could only wait for defeat.",
+    "sourceUrl": "https://en.wiktionary.org/wiki/zugzwang"
+  },
+  {
     "word": "Inaniloquent",
     "partOfSpeech": "adjective",
     "pronunciation": "in-ah-NIL-oh-kwent",

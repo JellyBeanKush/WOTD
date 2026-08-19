@@ -1,8 +1,8 @@
 {
-  "word": "Inaniloquent",
-  "partOfSpeech": "adjective",
-  "pronunciation": "in-ah-NIL-oh-kwent",
-  "definition": "Prone to talking nonsense or engaging in empty, foolish chatter.",
-  "example": "JellyBean joked that HoneyBear was being particularly inaniloquent during their late-night stream after his third energy drink.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/inaniloquent"
+  "word": "zugzwang",
+  "partOfSpeech": "noun",
+  "pronunciation": "TSOOK-tsvahng",
+  "definition": "A situation in which every possible move a player can make will worsen their position.",
+  "example": "HoneyBear and JellyBean were playing chess on stream until JellyBean realized he was in zugzwang and could only wait for defeat.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/zugzwang"
 }
