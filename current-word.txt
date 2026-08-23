@@ -1,8 +1,8 @@
 {
-  "word": "velleity",
+  "word": "Heortology",
   "partOfSpeech": "noun",
-  "pronunciation": "vuh-LEE-ih-tee",
-  "definition": "A mere wish or inclination that is not strong enough to lead to action.",
-  "example": "HoneyBear had a slight velleity to clean the studio, but JellyBean convinced him to stay on stream for another hour instead.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/velleity"
+  "pronunciation": "hor-TOL-uh-jee",
+  "definition": "The study of religious festivals and feast days.",
+  "example": "HoneyBear and JellyBean spent their stream discussing heortology to decide which ancient festivals they should celebrate together.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/heortology"
 }
