@@ -1,8 +1,8 @@
 {
-  "word": "Heortology",
-  "partOfSpeech": "noun",
-  "pronunciation": "hor-TOL-uh-jee",
-  "definition": "The study of religious festivals and feast days.",
-  "example": "HoneyBear and JellyBean spent their stream discussing heortology to decide which ancient festivals they should celebrate together.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/heortology"
+  "word": "lucifugous",
+  "partOfSpeech": "adjective",
+  "pronunciation": "loo-SIF-yuh-guhs",
+  "definition": "Avoiding light, or living in concealment from the sun.",
+  "example": "HoneyBear teased JellyBean for his lucifugous lifestyle, as the streamer preferred playing games in a dark room until sunrise.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/lucifugous"
 }
