@@ -1,8 +1,8 @@
 {
-  "word": "lucifugous",
-  "partOfSpeech": "adjective",
-  "pronunciation": "loo-SIF-yuh-guhs",
-  "definition": "Avoiding light, or living in concealment from the sun.",
-  "example": "HoneyBear teased JellyBean for his lucifugous lifestyle, as the streamer preferred playing games in a dark room until sunrise.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/lucifugous"
+  "word": "palaver",
+  "partOfSpeech": "noun",
+  "pronunciation": "puh-LAV-er",
+  "definition": "Prolonged and idle discussion or a fuss about a matter.",
+  "example": "HoneyBear and JellyBean muted their stream to avoid the endless palaver of the lobby chat while they focused on their game.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/palaver"
 }
