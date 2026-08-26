@@ -1,8 +1,8 @@
 {
-  "word": "palaver",
+  "word": "Onychogryphosis",
   "partOfSpeech": "noun",
-  "pronunciation": "puh-LAV-er",
-  "definition": "Prolonged and idle discussion or a fuss about a matter.",
-  "example": "HoneyBear and JellyBean muted their stream to avoid the endless palaver of the lobby chat while they focused on their game.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/palaver"
+  "pronunciation": "on-ih-koh-gri-FOH-sis",
+  "definition": "An abnormal growth of the nails causing them to become thickened and curved like claws.",
+  "example": "HoneyBear noticed JellyBean's dramatic fake claws during the stream and jokingly asked if he was suffering from onychogryphosis.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/onychogryphosis"
 }
