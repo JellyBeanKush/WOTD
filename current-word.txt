@@ -1,8 +1,8 @@
 {
-  "word": "claqueur",
-  "partOfSpeech": "noun",
-  "pronunciation": "kla-KUR",
-  "definition": "A person hired to applaud at a performance.",
-  "example": "JellyBean joked that HoneyBear was acting like his personal claqueur by cheering so loudly whenever he won a match on stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/claqueur"
+  "word": "vafrous",
+  "partOfSpeech": "adjective",
+  "pronunciation": "VAF-ruhs",
+  "definition": "Characterized by craftiness or cunning.",
+  "example": "HoneyBear flashed a vafrous grin as he executed a sneak attack on JellyBean during their live stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/vafrous"
 }
