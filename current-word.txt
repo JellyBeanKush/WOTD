@@ -1,8 +1,8 @@
 {
-  "word": "vafrous",
-  "partOfSpeech": "adjective",
-  "pronunciation": "VAF-ruhs",
-  "definition": "Characterized by craftiness or cunning.",
-  "example": "HoneyBear flashed a vafrous grin as he executed a sneak attack on JellyBean during their live stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/vafrous"
+  "word": "Bawbee",
+  "partOfSpeech": "noun",
+  "pronunciation": "baw-BEE",
+  "definition": "A Scottish coin of low value or a small, insignificant amount of money.",
+  "example": "HoneyBear told his viewers that JellyBean wouldn't spend even a bawbee on a new headset for their joint stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/bawbee"
 }
