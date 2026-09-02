@@ -1,8 +1,8 @@
 {
-  "word": "Bawbee",
-  "partOfSpeech": "noun",
-  "pronunciation": "baw-BEE",
-  "definition": "A Scottish coin of low value or a small, insignificant amount of money.",
-  "example": "HoneyBear told his viewers that JellyBean wouldn't spend even a bawbee on a new headset for their joint stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/bawbee"
+  "word": "Banausical",
+  "partOfSpeech": "adjective",
+  "pronunciation": "buh-NAW-zih-kul",
+  "definition": "Relating to technical or mechanical work that is considered boring or lacking in creativity.",
+  "example": "HoneyBear complained that their daily task of organizing streaming cables was too banausical for two such glamorous personalities like himself and JellyBean.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/banausical"
 }
