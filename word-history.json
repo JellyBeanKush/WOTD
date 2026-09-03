@@ -1,5 +1,13 @@
 [
   {
+    "word": "clerihew",
+    "partOfSpeech": "noun",
+    "pronunciation": "KLER-ih-hyoo",
+    "definition": "A short, whimsical four-line biographical poem with an AABB rhyme scheme.",
+    "example": "HoneyBear and JellyBean spent their stream writing a clerihew about their favorite gaming legends.",
+    "sourceUrl": "https://en.wiktionary.org/wiki/clerihew"
+  },
+  {
     "word": "Banausical",
     "partOfSpeech": "adjective",
     "pronunciation": "buh-NAW-zih-kul",

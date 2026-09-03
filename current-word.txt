@@ -1,8 +1,8 @@
 {
-  "word": "Banausical",
-  "partOfSpeech": "adjective",
-  "pronunciation": "buh-NAW-zih-kul",
-  "definition": "Relating to technical or mechanical work that is considered boring or lacking in creativity.",
-  "example": "HoneyBear complained that their daily task of organizing streaming cables was too banausical for two such glamorous personalities like himself and JellyBean.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/banausical"
+  "word": "clerihew",
+  "partOfSpeech": "noun",
+  "pronunciation": "KLER-ih-hyoo",
+  "definition": "A short, whimsical four-line biographical poem with an AABB rhyme scheme.",
+  "example": "HoneyBear and JellyBean spent their stream writing a clerihew about their favorite gaming legends.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/clerihew"
 }
