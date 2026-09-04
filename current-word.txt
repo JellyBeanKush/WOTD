@@ -1,8 +1,8 @@
 {
-  "word": "clerihew",
+  "word": "Brummeline",
   "partOfSpeech": "noun",
-  "pronunciation": "KLER-ih-hyoo",
-  "definition": "A short, whimsical four-line biographical poem with an AABB rhyme scheme.",
-  "example": "HoneyBear and JellyBean spent their stream writing a clerihew about their favorite gaming legends.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/clerihew"
+  "pronunciation": "BRUM-uh-leen",
+  "definition": "A dandy or a man who is overly concerned with his physical appearance and fashion.",
+  "example": "HoneyBear teased JellyBean for being such a brummeline after he spent two hours styling his hair before their charity stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/brummeline"
 }
