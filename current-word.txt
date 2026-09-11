@@ -1,8 +1,8 @@
 {
-  "word": "Blandishing",
-  "partOfSpeech": "adjective",
-  "pronunciation": "BLAN-dish-ing",
-  "definition": "Persuading by using flattery or kind words.",
-  "example": "HoneyBear offered a blandishing smile to the camera to convince his viewers to gift JellyBean some subs.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/blandishing"
+  "word": "Opsimath",
+  "partOfSpeech": "noun",
+  "pronunciation": "OP-suh-math",
+  "definition": "A person who begins to learn or study late in life.",
+  "example": "HoneyBear encouraged JellyBean to start his medical degree at forty, reminding his viewers that even a seasoned streamer can be an opsimath.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/opsimath"
 }
