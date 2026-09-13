@@ -1,8 +1,8 @@
 {
-  "word": "Opsimath",
-  "partOfSpeech": "noun",
-  "pronunciation": "OP-suh-math",
-  "definition": "A person who begins to learn or study late in life.",
-  "example": "HoneyBear encouraged JellyBean to start his medical degree at forty, reminding his viewers that even a seasoned streamer can be an opsimath.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/opsimath"
+  "word": "tussicular",
+  "partOfSpeech": "adjective",
+  "pronunciation": "tuh-SIK-yuh-ler",
+  "definition": "Of or relating to a cough.",
+  "example": "HoneyBear paused the stream because his tussicular symptoms were distracting JellyBean during their cooperative speedrun.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/tussicular"
 }
