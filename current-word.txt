@@ -1,8 +1,8 @@
 {
-  "word": "tussicular",
+  "word": "hircine",
   "partOfSpeech": "adjective",
-  "pronunciation": "tuh-SIK-yuh-ler",
-  "definition": "Of or relating to a cough.",
-  "example": "HoneyBear paused the stream because his tussicular symptoms were distracting JellyBean during their cooperative speedrun.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/tussicular"
+  "pronunciation": "HER-sine",
+  "definition": "Of, relating to, or resembling a goat, especially in smell or appearance.",
+  "example": "HoneyBear laughed and told JellyBean that his new musk-scented cologne smelled a bit too hircine for a live stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/hircine"
 }
