@@ -1,8 +1,8 @@
 {
-  "word": "hircine",
-  "partOfSpeech": "adjective",
-  "pronunciation": "HER-sine",
-  "definition": "Of, relating to, or resembling a goat, especially in smell or appearance.",
-  "example": "HoneyBear laughed and told JellyBean that his new musk-scented cologne smelled a bit too hircine for a live stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/hircine"
+  "word": "nidor",
+  "partOfSpeech": "noun",
+  "pronunciation": "NY-der",
+  "definition": "A strong smell arising from something, especially cooking meat or burning fat.",
+  "example": "HoneyBear and JellyBean accidentally set their dinner on fire, filling their studio with a thick, savory nidor that lingered on their microphones.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/nidor"
 }
