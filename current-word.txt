@@ -1,8 +1,8 @@
 {
-  "word": "nidor",
+  "word": "lythron",
   "partOfSpeech": "noun",
-  "pronunciation": "NY-der",
-  "definition": "A strong smell arising from something, especially cooking meat or burning fat.",
-  "example": "HoneyBear and JellyBean accidentally set their dinner on fire, filling their studio with a thick, savory nidor that lingered on their microphones.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/nidor"
+  "pronunciation": "LITH-ron",
+  "definition": "A mixture of dust and sweat or clotted blood.",
+  "example": "After their intense twenty-four-hour charity gaming marathon, HoneyBear and JellyBean were covered in a layer of lythron from the humid studio air.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/lythron"
 }
