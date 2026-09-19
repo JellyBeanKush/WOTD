@@ -1,8 +1,8 @@
 {
-  "word": "lythron",
+  "word": "accismus",
   "partOfSpeech": "noun",
-  "pronunciation": "LITH-ron",
-  "definition": "A mixture of dust and sweat or clotted blood.",
-  "example": "After their intense twenty-four-hour charity gaming marathon, HoneyBear and JellyBean were covered in a layer of lythron from the humid studio air.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/lythron"
+  "pronunciation": "ak-SIZ-muhs",
+  "definition": "A form of irony in which someone feigns indifference or refuses something they actually desire.",
+  "example": "HoneyBear practiced a bit of accismus when he pretended not to want the rare item JellyBean offered him during their co-op stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/accismus"
 }
