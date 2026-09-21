@@ -1,8 +1,8 @@
 {
-  "word": "Acnestis",
-  "partOfSpeech": "noun",
-  "pronunciation": "ak-NEES-tis",
-  "definition": "The part of an animal's back that it cannot reach to scratch itself.",
-  "example": "HoneyBear leaned over to scratch that troublesome acnestis for JellyBean during their marathon charity stream.",
-  "sourceUrl": "https://en.wiktionary.org/wiki/acnestis"
+  "word": "melanochroid",
+  "partOfSpeech": "adjective",
+  "pronunciation": "meh-LAN-uh-kroyd",
+  "definition": "Having dark hair and pale skin.",
+  "example": "HoneyBear complimented his melanochroid partner JellyBean on how his dark curls contrasted perfectly with his fair complexion during their joint stream.",
+  "sourceUrl": "https://en.wiktionary.org/wiki/melanochroid"
 }
